@@ -1,6 +1,7 @@
 import './App.css'
 import { useState, useEffect } from 'react';
 import SpotifyWebApi from 'spotify-web-api-js';
+import LineUp from './components/LineUp';
 import Artist from './components/Artist';
 import Tracks from './components/Tracks';
 import RelatedArtists from './components/RelatedArtists';
@@ -16,7 +17,21 @@ const getTokenFromUrl = () => {
 }
 
 let artistIndex = 0;
-let artistList = ['Dua Lipa', 'Coldplay', 'SZA', 'DMX'];
+
+let lineUp = [
+  {
+    name: 'DMX',
+    id: 0
+  },
+  {
+    name: 'Dua Lipa',
+    id: 1
+  },
+  {
+    name: 'Coldplay',
+    id: 2
+  },
+];
 
 function App() {
 
@@ -35,9 +50,6 @@ function App() {
     if (accessToken) {
       setSpotifyToken(accessToken);
       spotifyApi.setAccessToken(accessToken);
-      spotifyApi.getMe().then((user) => {
-        console.log('user info ', user);
-      })
       setLoggedIn(true);
     }
   })
@@ -49,18 +61,9 @@ function App() {
     
   }, [artist])
 
-  const getNowPlaying = () => {
-    spotifyApi.getMyCurrentPlaybackState().then((res) => {
-      console.log('playback res ', res);
-      setNowPlaying({
-        name: res.item.name,
-        albumArt: res.item.album.images[0].url
-      })
-    })
-  }
 
-  const getArtist = () => {
-    spotifyApi.searchArtists(artistList[artistIndex]).then((res) => {
+  const getArtist = (artistName) => {
+    spotifyApi.searchArtists(artistName).then((res) => {
       console.log('RES get artist ', res.artists.items[0]);
       setArtist(res.artists.items[0])
       artistIndex++;
@@ -78,31 +81,13 @@ function App() {
     })
   }
 
-  const playTrack = () => {
-    let audio = new Audio(tracks[0].preview_url)
   
-    const play = () => {
-      audio.play()
-    }
-
-    play();
-
-  }
-
-
   return (
     <div className="App">
       {!loggedIn && <a href="http://localhost:8888/login">Log in</a>}
-      {
-        loggedIn && (
-        <>
-            <button onClick={() => getArtist()}>get artist</button>
-            <button onClick={playTrack}>Play</button>
-        </>
-        )}
-      
       {loggedIn && (
         <>
+          <LineUp lineUp={lineUp} getArtist={getArtist} />
           <Artist artist={artist} />
           <Tracks tracks={tracks} />
           <RelatedArtists relatedArtists={relatedArtists} />

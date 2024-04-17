@@ -4,9 +4,16 @@ import { useState, useEffect } from 'react';
 
 function Tracks({tracks}) {
 
-  const handleClick = (e) => {
-    console.log('click');
+  const playTrack = (e) => {
     console.log(e.target.id);
+    let audio = new Audio(e.target.id)
+  
+    const play = () => {
+      audio.play()
+    }
+
+    play();
+
   }
 
   return (
@@ -14,7 +21,7 @@ function Tracks({tracks}) {
       <h3>Tracks</h3>
       {tracks.length === 0 ? <></> :
         <ul>
-          {tracks.map((track) => <p onClick={handleClick} id={track.id} key={track.id}>{track.name}</p>)}
+          {tracks.map((track) => <p onClick={playTrack} id={track.preview_url} key={track.id}>{track.name}</p>)}
         </ul>
       }   
     </div>
