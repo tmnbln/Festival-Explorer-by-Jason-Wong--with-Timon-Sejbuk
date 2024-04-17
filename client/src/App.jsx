@@ -5,6 +5,7 @@ import LineUp from './components/LineUp';
 import Artist from './components/Artist';
 import Tracks from './components/Tracks';
 import RelatedArtists from './components/RelatedArtists';
+import artistList from './data/index';
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -18,20 +19,23 @@ const getTokenFromUrl = () => {
 
 let artistIndex = 0;
 
-let lineUp = [
-  {
-    name: 'DMX',
-    id: 0
-  },
-  {
-    name: 'Dua Lipa',
-    id: 1
-  },
-  {
-    name: 'Coldplay',
-    id: 2
-  },
-];
+// let lineUp = [
+//   {
+//     name: 'DMX',
+//     id: 0
+//   },
+//   {
+//     name: 'Dua Lipa',
+//     id: 1
+//   },
+//   {
+//     name: 'Coldplay',
+//     id: 2
+//   },
+// ];
+
+let lineUp = artistList;
+console.log(lineUp);
 
 function App() {
 
