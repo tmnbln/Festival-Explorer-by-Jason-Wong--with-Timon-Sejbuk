@@ -5,7 +5,7 @@ import LineUp from './components/LineUp';
 import Artist from './components/Artist';
 import Tracks from './components/Tracks';
 import RelatedArtists from './components/RelatedArtists';
-import artistList from './data/index';
+// import artistList from './data/index';
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -17,35 +17,34 @@ const getTokenFromUrl = () => {
   }, {});
 }
 
-// let lineUp = [
-//   {
-//     name: 'DMX',
-//     id: 0
-//   },
-//   {
-//     name: 'Dua Lipa',
-//     id: 1
-//   },
-//   {
-//     name: 'Coldplay',
-//     id: 2
-//   },
-// ];
+let lineUp = [
+  {
+    name: 'DMX',
+    id: 0
+  },
+  {
+    name: 'Dua Lipa',
+    id: 1
+  },
+  {
+    name: 'Coldplay',
+    id: 2
+  },
+];
 
-let artistIndex = 0;
-let lineUp = artistList;
+// let artistIndex = 0;
+// let lineUp = artistList.slice(0, 50);
 // console.log(lineUp);
 const playlistURIs = [];
 
 function App() {
 
   const [spotifyToken, setSpotifyToken] = useState('');
-  const [nowPlaying, setNowPlaying] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [artist, setArtist] = useState('');
   const [tracks, setTracks] = useState([]);
   const [relatedArtists, setRelatedArtists] = useState([]);
-  const [percentLoaded, setPercentLoaded] = useState(0);
+  // const [percentLoaded, setPercentLoaded] = useState(0);
 
   useEffect(() => {
     const accessToken = getTokenFromUrl().access_token;
@@ -63,7 +62,7 @@ function App() {
     // console.log('logged in change');
     if (!loggedIn) return;
     getArtist(lineUp[0].name, setArtist);
-    setTimeout(() => { populatePlaylist() }, 1000);
+    // setTimeout(() => { populatePlaylist() }, 1000);
   }, [loggedIn])
 
 
@@ -104,7 +103,7 @@ function App() {
   }
 
   
-  const populatePlaylist = () => {
+  const populatePlaylist = async () => {
     playlistURIs.splice(0, playlistURIs.length);
     for (let i = 0; i < lineUp.length; i++) {
       setTimeout(() => {
@@ -114,8 +113,8 @@ function App() {
             data.forEach(track => playlistURIs.push(track.uri));
           });
         })
-        setPercentLoaded(i / lineUp.length);
-      }, i * 50)
+        // setPercentLoaded(i / (lineUp.length - 1));
+      }, i * 200)
     }
   }
 
@@ -156,7 +155,8 @@ function App() {
       {!loggedIn && <a href="http://localhost:8888/login">Log in</a>}
       {loggedIn && (
         <>
-          <p>{percentLoaded}</p>
+          {/* <p>{percentLoaded}</p> */}
+          <button onClick={populatePlaylist}>Populate Playlist</button>
           <button onClick={createPlaylist}>Download Playlist</button>
           <div className='dashboard'>
             <LineUp lineUp={lineUp} getArtist={getArtist} setArtist={setArtist} />

@@ -1,25 +1,25 @@
 import '../App.css'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 
-function Tracks({tracks}) {
-
-  const playTrack = (e) => {
-    let audio = new Audio(e.target.id)
+function Tracks({ tracks }) {
   
-    const play = () => {
-      audio.play()
-    }
+  const [nowPlaying, setNowPlaying] = useState('');  
+  const [audio, setAudio] = useState(new Audio());
+  if (audio) audio.play();
 
-    play();
-
+  const playTrack = async (e) => {
+    if (audio) audio.pause();
+    setAudio(new Audio(e.target.id));
+    setNowPlaying(e.target.innerHTML);
   }
 
   return (
     <div className="Tracks">
       <h3>Tracks</h3>
+      <audio controls></audio>
       {tracks.length === 0 ? <></> :
-        <div>
+        <div >
           {tracks.map((track) => <p onClick={playTrack} id={track.preview_url} key={track.id}>{track.name}</p>)}
         </div>
       }   
