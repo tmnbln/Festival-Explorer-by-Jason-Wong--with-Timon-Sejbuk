@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react';
 
 function Artist({artist}) {
 
-  console.log('IN ARTIST, ', artist);
-
   return (
     <div className="Artist">
       <h3>Artist</h3>

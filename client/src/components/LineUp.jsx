@@ -1,11 +1,10 @@
 import '../App.css'
 import { useState, useEffect } from 'react';
 
-function LineUp({lineUp, getArtist}) {
+function LineUp({lineUp, getArtist, setArtist}) {
 
   const selectArtist = (e) => {
-    console.log(e.target.id);
-    getArtist(e.target.id);
+    getArtist(e.target.id, setArtist);
   }
 
   return (

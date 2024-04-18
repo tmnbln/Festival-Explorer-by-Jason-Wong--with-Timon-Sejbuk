@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 function Tracks({tracks}) {
 
   const playTrack = (e) => {
-    console.log(e.target.id);
     let audio = new Audio(e.target.id)
   
     const play = () => {

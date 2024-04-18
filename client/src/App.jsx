@@ -17,8 +17,6 @@ const getTokenFromUrl = () => {
   }, {});
 }
 
-// let artistIndex = 0;
-
 let lineUp = [
   {
     name: 'DMX',
@@ -34,6 +32,7 @@ let lineUp = [
   },
 ];
 
+// let artistIndex = 0;
 // let lineUp = artistList;
 // console.log(lineUp);
 
@@ -50,7 +49,7 @@ function App() {
   useEffect(() => {
     const accessToken = getTokenFromUrl().access_token;
     window.location.hash = '';
-    console.log('this is our spotify token ', accessToken);
+    // console.log('this is our spotify token ', accessToken);
     
     if (accessToken) {
       setSpotifyToken(accessToken);
@@ -60,86 +59,79 @@ function App() {
   })
 
   useEffect(() => {
-    console.log('artist changed');
+    // console.log('logged in change');
+    if (!loggedIn) return;
+    getArtist(lineUp[0].name, setArtist);
+  }, [loggedIn])
+
+
+  useEffect(() => {
+    // console.log('artist changed');
     if (!artist) return;
-
-    const setArtistInfo = async () => {
-      console.log('AID', artist.id)
-      const artistTracks = await getArtistTracks(artist.id);
-      console.log('AT', artistTracks)
-      setTracks(artistTracks)
-  
-      const relatedArtists = await getRelatedArtists(artist.id);
-      console.log('RA', relatedArtists);
-      setRelatedArtists(relatedArtists)
-    }
-
-    setArtistInfo();
-
+    getArtistTracks(artist.id, setTracks);
+    getRelatedArtists(artist.id, setRelatedArtists);
   }, [artist])
 
 
-  const getArtist = (artistName) => {
+  const getArtist = (artistName, cb) => {
     spotifyApi.searchArtists(artistName).then((res) => {
-      console.log('RES get artist ', res.artists.items[0]);
-      setArtist(res.artists.items[0])
-      // artistIndex++;
+      // console.log('RES get artist ', res.artists.items[0]);
+      cb(res.artists.items[0])
     })
   }
 
-  const getArtistTracks = async (artistId) => {
-    return spotifyApi.getArtistTopTracks(artistId).then((res) => {
-      console.log('RES get tracks ', res.tracks);
-      return res.tracks
-      // setTracks(res.tracks)
+  const getArtistTracks = (artistId, cb) => {
+    spotifyApi.getArtistTopTracks(artistId).then((res) => {
+      // console.log('RES get tracks ', res.tracks);
+      cb(res.tracks);
     })
   }
 
-  const getRelatedArtists = async (artistId) => {
-    return spotifyApi.getArtistRelatedArtists(artistId).then((res) => {
-      console.log('RES related artists ', res);
-      return res.artists;
-      // setRelatedArtists(res.artists)
+  const getRelatedArtists = (artistId, cb) => {
+    spotifyApi.getArtistRelatedArtists(artistId).then((res) => {
+      // console.log('RES related artists ', res);
+      cb(res.artists);
     })
   }
 
-  const getMyTopArtists = () => {
+  const getMyTopArtists = (cb) => {
     spotifyApi.getMyTopArtists().then((res) => {
-      console.log('RES get my top', res);
+      // console.log('RES get my top', res);
+      cb(res);
     })
   }
 
   const populatePlaylist = () => {
-    // console.log('test')
-    // spotifyApi.searchArtists(lineUp[1]).then((res) => {
-    //   console.log('RES SEARCH', res.artists.items[0].id);
-    //   return res.artists.items[0].id;
-    // })
-    //   .then((artistId) => {
-    //   spotifyApi.getT
-    // })
+    console.log('test')
+    spotifyApi.searchArtists(lineUp[1]).then((res) => {
+      // console.log('RES SEARCH', res.artists.items[0].id);
+      return res.artists.items[0].id;
+    })
+      .then((artistId) => {
+      spotifyApi.getT
+    })
 
   }
 
   const createPlaylist = async () => {
-    console.log('in playlist')
+    // console.log('in playlist')
     await spotifyApi
       .getMe()
       .then((res) => {
-        console.log('RES get me', res);
+        // console.log('RES get me', res);
         return res.id
       })
       .then((userId) => {
         spotifyApi.createPlaylist(userId, { 'name': 'festify', 'description': 'festify description' })
           .then((res) => {
-          console.log('RES creating playlist', res);
+          // console.log('RES creating playlist', res);
           return res.id
         })
       .then((playlistId) => {
-        console.log('PID', playlistId);
+        // console.log('PID', playlistId);
         spotifyApi.addTracksToPlaylist(playlistId, playlistURIs)
           .then((res) => {
-            console.log(res);
+            // console.log(res);
           })
       })
       })
@@ -153,7 +145,7 @@ function App() {
         <>
           <button onClick={populatePlaylist}>Populate Playlist</button>
           <button onClick={createPlaylist}>Download Playlist</button>
-          <LineUp lineUp={lineUp} getArtist={getArtist} />
+          <LineUp lineUp={lineUp} getArtist={getArtist} setArtist={setArtist} />
           <Artist artist={artist} />
           <Tracks tracks={tracks} />
           <RelatedArtists relatedArtists={relatedArtists} />
