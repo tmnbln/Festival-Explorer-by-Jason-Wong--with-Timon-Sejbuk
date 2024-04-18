@@ -4,7 +4,8 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const router = require('./router')
 
-app.use(cors())
+app.use(express.json())
+  .use(cors())
   .use(cookieParser())
   .use(router);
 

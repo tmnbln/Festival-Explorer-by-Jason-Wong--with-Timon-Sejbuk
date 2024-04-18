@@ -91,4 +91,36 @@ const events = [
   }
 ];
 
-module.exports = events;
+
+
+const eventTest = {
+    "name": "Terminal V",
+    "festivalId": "jambase:11336405",
+    "image": "https://www.jambase.com/wp-content/uploads/2020/09/terminal-v-festival-2021-1480x832.jpg",
+    "startDate": "2024-04-13",
+    "endDate": "2024-04-14",
+    "performer": [
+      {
+        "performerType": "MusicGroup",
+        "name": "999999999",
+        "performerId": "jambase:272785",
+        "image": "https://www.jambase.com/wp-content/uploads/2021/08/jambase-default-band-image-bw-1480x832.png",
+        "bandOrMusician": "band",
+        "performanceDate": "2024-04-13",
+        "performanceRank": 1,
+        "isHeadliner": true,
+      },
+      {
+        "performerType": "MusicGroup",
+        "name": "Neoma",
+        "performerId": "jambase:6156785",
+        "image": "https://www.jambase.com/wp-content/uploads/2023/05/neoma-1480x832.png",
+        "bandOrMusician": "band",
+        "performanceDate": "2024-04-14",
+        "performanceRank": 44,
+        "isHeadliner": false,
+      }
+    ],
+  }
+
+module.exports = {events, eventTest};

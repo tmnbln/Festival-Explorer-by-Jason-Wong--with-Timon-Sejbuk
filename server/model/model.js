@@ -1,4 +1,5 @@
 const mongoose = require('./index');
+const {eventTest} = require('../data/data temp');
 
 const festivalSchema = new mongoose.Schema({
   name: String,
@@ -7,7 +8,7 @@ const festivalSchema = new mongoose.Schema({
   startDate: String,
   endDate: String,
   performer: [{
-    type: String,
+    performerType: String,
     name: String,
     performerId: String,
     image: String,
@@ -32,6 +33,7 @@ async function addFestival(festival) {
   const newFestival = await Festival.create(festival);
   return newFestival;
 }
+
 
 module.exports = {
   getOneFestival,
