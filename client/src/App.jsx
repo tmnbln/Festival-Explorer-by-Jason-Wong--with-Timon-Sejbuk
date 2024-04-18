@@ -5,7 +5,7 @@ import LineUp from './components/LineUp';
 import Artist from './components/Artist';
 import Tracks from './components/Tracks';
 import RelatedArtists from './components/RelatedArtists';
-// import artistList from './data/index';
+import artistList from './data/index';
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -17,23 +17,23 @@ const getTokenFromUrl = () => {
   }, {});
 }
 
-let lineUp = [
-  {
-    name: 'DMX',
-    id: 0
-  },
-  {
-    name: 'Dua Lipa',
-    id: 1
-  },
-  {
-    name: 'Coldplay',
-    id: 2
-  },
-];
+// let lineUp = [
+//   {
+//     name: 'DMX',
+//     id: 0
+//   },
+//   {
+//     name: 'Dua Lipa',
+//     id: 1
+//   },
+//   {
+//     name: 'Coldplay',
+//     id: 2
+//   },
+// ];
 
-// let artistIndex = 0;
-// let lineUp = artistList;
+let artistIndex = 0;
+let lineUp = artistList.slice(0, 40);
 // console.log(lineUp);
 
 function App() {
@@ -44,7 +44,7 @@ function App() {
   const [artist, setArtist] = useState('');
   const [tracks, setTracks] = useState([]);
   const [relatedArtists, setRelatedArtists] = useState([]);
-  const playlistURIs = ['spotify:track:66orjI5vOkyxOZLHWrPklh', 'spotify:track:1BKT2I9x4RGKaKqW4up34s', 'spotify:track:0LWkaEyQRkF0XAms8Bg1fC']
+  const playlistURIs = [];
 
   useEffect(() => {
     const accessToken = getTokenFromUrl().access_token;
@@ -102,40 +102,50 @@ function App() {
   }
 
   const populatePlaylist = () => {
-    console.log('test')
-    spotifyApi.searchArtists(lineUp[1]).then((res) => {
-      // console.log('RES SEARCH', res.artists.items[0].id);
-      return res.artists.items[0].id;
+    playlistURIs.splice(0, playlistURIs.length);
+    lineUp.forEach(artist => {
+      getArtist(artist.name, (data) => {
+        getArtistTracks(data.id, (data) => {
+          data.forEach(track => playlistURIs.push(track.uri));
+        });
+      })
     })
-      .then((artistId) => {
-      spotifyApi.getT
-    })
-
+    console.log(playlistURIs)
   }
 
+
+  
+
   const createPlaylist = async () => {
-    // console.log('in playlist')
+    // await populatePlaylist();
+    const batches = Math.ceil(playlistURIs.length / 100);
+    const remainder = playlistURIs.length % 100;
+    
     await spotifyApi
       .getMe()
       .then((res) => {
-        // console.log('RES get me', res);
         return res.id
       })
       .then((userId) => {
         spotifyApi.createPlaylist(userId, { 'name': 'festify', 'description': 'festify description' })
           .then((res) => {
-          // console.log('RES creating playlist', res);
           return res.id
         })
       .then((playlistId) => {
-        // console.log('PID', playlistId);
-        spotifyApi.addTracksToPlaylist(playlistId, playlistURIs)
-          .then((res) => {
-            // console.log(res);
-          })
+        for (let i = 0; i < batches; i++) {
+          let limit = 100;
+          let start = i * limit;
+          let content = i === batches - 1 ? remainder : limit;
+          let end = start + content;
+          setTimeout(() => {
+            spotifyApi.addTracksToPlaylist(playlistId, playlistURIs.slice(start, end))
+              .then((res) => {
+                console.log(res);
+              })
+          }, 1000)
+        }
       })
       })
- 
   }
 
   return (
