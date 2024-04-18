@@ -2,11 +2,12 @@ const crypto = require('crypto');
 const stateKey = 'spotify_auth_state';
 const querystring = require('querystring');
 const request = require('request');
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
-// MOVE TO DOT ENV FILE
-const client_id = '03af2e23308f4bc29475475e3944cd7b'; // your clientId
-const client_secret = 'ca49e69039e64ae4bf5ed86ae0161f2f'; // Your secret
-const redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
+const client_id = process.env.CLIENT_ID
+const client_secret = process.env.CLIENT_SECRET
+const redirect_uri = process.env.REDIRECT_URI
 
 const generateRandomString = (length) => {
   return crypto
@@ -21,7 +22,7 @@ async function login (req, res) {
   res.cookie(stateKey, state);
 
   // your application requests authorization
-  const scope = 'user-read-private user-read-email user-read-playback-state';
+  const scope = 'user-read-private user-read-email user-read-playback-state user-top-read playlist-modify-private playlist-modify-public';
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',

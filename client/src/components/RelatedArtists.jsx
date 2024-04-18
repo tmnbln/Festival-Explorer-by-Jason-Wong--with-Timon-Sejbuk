@@ -8,9 +8,9 @@ function RelatedArtists({relatedArtists}) {
     <div className="RelatedArtists">
       <h3>RelatedArtists</h3>
       {relatedArtists.length === 0 ? <></> :
-        <ul>
+        <div>
           { relatedArtists.map((artist) => <p key={artist.id}>{artist.name}</p>) }
-        </ul>
+        </div>
       }   
     </div>
   )

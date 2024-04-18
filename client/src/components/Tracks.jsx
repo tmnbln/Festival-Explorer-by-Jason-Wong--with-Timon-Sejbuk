@@ -20,9 +20,9 @@ function Tracks({tracks}) {
     <div className="Tracks">
       <h3>Tracks</h3>
       {tracks.length === 0 ? <></> :
-        <ul>
+        <div>
           {tracks.map((track) => <p onClick={playTrack} id={track.preview_url} key={track.id}>{track.name}</p>)}
-        </ul>
+        </div>
       }   
     </div>
   )

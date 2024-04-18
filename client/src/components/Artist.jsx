@@ -10,10 +10,11 @@ function Artist({artist}) {
     <div className="Artist">
       <h3>Artist</h3>
       {!artist ? <></> :
-        <>
+        <div>
           <p>{artist.name}</p>
           <img src={artist.images[0].url}></img>
-        </>
+          <p>{artist.followers.total.toLocaleString() } followers</p>
+        </div>
       }   
     </div>
   )

@@ -12,9 +12,9 @@ function LineUp({lineUp, getArtist}) {
     <div className="Line Up">
       <h3>Line Up</h3>
       {lineUp.length === 0 ? <></> :
-        <ul>
+        <div>
           {lineUp.map((artist) => <p onClick={selectArtist} id={artist.name} key={artist.id}>{artist.name}</p>) }
-        </ul>
+        </div>
       }   
     </div>
   )
