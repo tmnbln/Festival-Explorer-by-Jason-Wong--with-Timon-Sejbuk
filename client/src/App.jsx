@@ -45,6 +45,7 @@ function App() {
   const [artist, setArtist] = useState('');
   const [tracks, setTracks] = useState([]);
   const [relatedArtists, setRelatedArtists] = useState([]);
+  const [percentLoaded, setPercentLoaded] = useState(0);
 
   useEffect(() => {
     const accessToken = getTokenFromUrl().access_token;
@@ -102,6 +103,7 @@ function App() {
     })
   }
 
+  
   const populatePlaylist = () => {
     playlistURIs.splice(0, playlistURIs.length);
     for (let i = 0; i < lineUp.length; i++) {
@@ -112,6 +114,7 @@ function App() {
             data.forEach(track => playlistURIs.push(track.uri));
           });
         })
+        setPercentLoaded(i / lineUp.length);
       }, i * 50)
     }
   }
@@ -153,11 +156,14 @@ function App() {
       {!loggedIn && <a href="http://localhost:8888/login">Log in</a>}
       {loggedIn && (
         <>
+          <p>{percentLoaded}</p>
           <button onClick={createPlaylist}>Download Playlist</button>
-          <LineUp lineUp={lineUp} getArtist={getArtist} setArtist={setArtist} />
-          <Artist artist={artist} />
-          <Tracks tracks={tracks} />
-          <RelatedArtists relatedArtists={relatedArtists} />
+          <div className='dashboard'>
+            <LineUp lineUp={lineUp} getArtist={getArtist} setArtist={setArtist} />
+            <Artist artist={artist} />
+            <Tracks tracks={tracks} />
+            <RelatedArtists relatedArtists={relatedArtists} />
+            </div>
         </>
       )}
 
