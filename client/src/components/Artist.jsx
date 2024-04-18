@@ -6,7 +6,6 @@ function Artist({artist}) {
 
   return (
     <div className="Artist">
-      <h3>Artist</h3>
       {!artist ? <></> :
         <div>
           <p>{artist.name}</p>

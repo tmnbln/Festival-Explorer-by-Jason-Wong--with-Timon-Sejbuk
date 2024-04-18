@@ -1,11 +1,12 @@
 import './App.css'
 import { useState, useEffect } from 'react';
 import SpotifyWebApi from 'spotify-web-api-js';
+import Header from './components/Header';
 import LineUp from './components/LineUp';
 import Artist from './components/Artist';
 import Tracks from './components/Tracks';
 import RelatedArtists from './components/RelatedArtists';
-import moment from 'moment';
+
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -17,24 +18,6 @@ const getTokenFromUrl = () => {
   }, {});
 }
 
-// let lineUp = [
-  // {
-  //   name: 'DMX',
-  //   id: 0
-  // },
-  // {
-  //   name: 'Dua Lipa',
-  //   id: 1
-  // },
-  // {
-  //   name: 'Coldplay',
-  //   id: 2
-  // },
-// ];
-
-// let artistIndex = 0;
-// let lineUp = artistList.slice(0, 50);
-// console.log(lineUp);
 const playlistURIs = [];
 
 function App() {
@@ -46,12 +29,12 @@ function App() {
   const [artist, setArtist] = useState('');
   const [tracks, setTracks] = useState([]);
   const [relatedArtists, setRelatedArtists] = useState([]);
+  const [topArtists, setTopArtists] = useState([]);
   // const [percentLoaded, setPercentLoaded] = useState(0);
 
   useEffect(() => {
     const accessToken = getTokenFromUrl().access_token;
     window.location.hash = '';
-    // console.log('this is our spotify token ', accessToken);
     
     if (accessToken) {
       setSpotifyToken(accessToken);
@@ -61,9 +44,7 @@ function App() {
   })
 
   useEffect(() => {
-    // console.log('logged in change');
     if (!loggedIn) return;
-    // getArtist(lineUp[0].name, setArtist);
     // setTimeout(() => { populatePlaylist() }, 1000);
   }, [loggedIn])
 
@@ -72,12 +53,17 @@ function App() {
     if (!festival.performer) return;
     setLineUp(festival.performer);
     getArtist(festival.performer[0].name, setArtist);
-    console.log(formatDate(festival.startDate));
+    getTopArtists();
   }, [festival])
   
+  useEffect(() => {
+    if (!lineUp.length) return;
+    getArtist(lineUp[0].name, setArtist);
+    getTopArtists();
+  }, [lineUp])
+
 
   useEffect(() => {
-    // console.log('artist changed');
     if (!artist) return;
     getArtistTracks(artist.id, setTracks);
     getRelatedArtists(artist.id, setRelatedArtists);
@@ -86,30 +72,44 @@ function App() {
 
   const getArtist = (artistName, cb) => {
     spotifyApi.searchArtists(artistName).then((res) => {
-      // console.log('RES get artist ', res.artists.items[0]);
       cb(res.artists.items[0])
     })
   }
 
   const getArtistTracks = (artistId, cb) => {
     spotifyApi.getArtistTopTracks(artistId).then((res) => {
-      // console.log('RES get tracks ', res.tracks);
       cb(res.tracks);
     })
   }
 
   const getRelatedArtists = (artistId, cb) => {
     spotifyApi.getArtistRelatedArtists(artistId).then((res) => {
-      // console.log('RES related artists ', res);
       cb(res.artists);
     })
   }
 
-  const getMyTopArtists = (cb) => {
-    spotifyApi.getMyTopArtists().then((res) => {
-      // console.log('RES get my top', res);
-      cb(res);
-    })
+  const getTopArtists = async () => {
+    await spotifyApi.getMyTopArtists({ 'limit': '50' })
+      .then((res) => {
+        let tempTopArtists = [];
+        res.items.forEach(artist => tempTopArtists.push(artist.name));
+        return tempTopArtists;
+      })
+      .then((tempTopArtists) => {
+      spotifyApi.getMyTopArtists({ 'limit': '50', 'offset': '50' }).then((res) => {
+        res.items.forEach(artist => tempTopArtists.push(artist.name));
+        setTopArtists([...topArtists, ...tempTopArtists])
+      })
+    }) 
+  }
+
+  const showTopArtists = async () => {
+    lineUp.forEach(artist => {
+      if (topArtists.includes(artist.name)) console.log(artist.name);
+    });
+    setLineUp(lineUp.filter(artist => topArtists.includes(artist.name)))
+
+
   }
   
   const populatePlaylist = async () => {
@@ -191,10 +191,6 @@ function App() {
 
   }
 
-  const formatDate = (str) => {
-    return moment(new Date(str)).format("MMMM D");
-  }
-
 
   return (
     <div className="App">
@@ -209,12 +205,12 @@ function App() {
         <>
           {/* <p>{percentLoaded}</p> */}
           
-          <h1>{festival.name}</h1>
-          <h3>{formatDate(festival.startDate)} - {formatDate(festival.endDate)}</h3>
+          <Header festival={festival} />
+          <button onClick={showTopArtists}>Top Artists</button>
           <button onClick={populatePlaylist}>Populate Playlist</button>
           <button onClick={createPlaylist}>Download Playlist</button>
           <div className='dashboard'> 
-            <LineUp lineUp={lineUp} getArtist={getArtist} setArtist={setArtist} />
+            <LineUp lineUp={lineUp} getArtist={getArtist} setArtist={setArtist} topArtists={topArtists} />
             <Artist artist={artist} />
             <Tracks tracks={tracks} />
             <RelatedArtists relatedArtists={relatedArtists} />

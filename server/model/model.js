@@ -22,7 +22,7 @@ const festivalSchema = new mongoose.Schema({
 const Festival = mongoose.model('Festival', festivalSchema);
 
 async function getOneFestival(name) {
-  return await Festival.find({'name': name});
+  return await Festival.find({ 'name': { "$regex": name, "$options": "i" } });
 }
 
 async function getAllFestivals() {
