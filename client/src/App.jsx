@@ -5,6 +5,7 @@ import LineUp from './components/LineUp';
 import Artist from './components/Artist';
 import Tracks from './components/Tracks';
 import RelatedArtists from './components/RelatedArtists';
+import moment from 'moment';
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -40,7 +41,7 @@ function App() {
 
   const [spotifyToken, setSpotifyToken] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
-  const [festival, setFestival] = useState({});
+  const [festival, setFestival] = useState('');
   const [lineUp, setLineUp] = useState([]);
   const [artist, setArtist] = useState('');
   const [tracks, setTracks] = useState([]);
@@ -71,6 +72,7 @@ function App() {
     if (!festival.performer) return;
     setLineUp(festival.performer);
     getArtist(festival.performer[0].name, setArtist);
+    console.log(formatDate(festival.startDate));
   }, [festival])
   
 
@@ -129,15 +131,18 @@ function App() {
     console.log('PURI', playlistURIs);
     const batches = Math.ceil(playlistURIs.length / 100);
     const remainder = playlistURIs.length % 100;
+    console.log(batches, remainder);
     
     await spotifyApi
       .getMe()
       .then((res) => {
+        console.log('userID', res.id)
         return res.id
       })
       .then((userId) => {
-        spotifyApi.createPlaylist(userId, { 'name': 'festify', 'description': 'festify description' })
+        spotifyApi.createPlaylist(userId, { 'name': `${festival.name} 2024`, 'description': 'festify description' })
           .then((res) => {
+            console.log('playlistID', res.id)
           return res.id
         })
       .then((playlistId) => {
@@ -147,6 +152,7 @@ function App() {
           let content = i === batches - 1 ? remainder : limit;
           let end = start + content;
           setTimeout(() => {
+            console.log(i);
             spotifyApi.addTracksToPlaylist(playlistId, playlistURIs.slice(start, end))
               .then((res) => {
                 console.log(res);
@@ -174,16 +180,40 @@ function App() {
     getFestival('Wireless Festival', setFestival);
   }
 
+  const [searchName, setSearchName] = useState('');
+  const searchHandler = (e) => {
+    setSearchName(e.target.value);
+  }
+
+  const searchSubmit = (e) => {
+    e.preventDefault();
+    getFestival(searchName, setFestival);
+
+  }
+
+  const formatDate = (str) => {
+    return moment(new Date(str)).format("MMMM D");
+  }
+
+
   return (
     <div className="App">
       {!loggedIn && <a href="http://localhost:8888/login">Log in</a>}
-      {loggedIn && (
+      {!festival && loggedIn && 
+        <form onSubmit={searchSubmit}>
+          <input type="text" value={searchName} onChange={searchHandler}></input>
+          <button type="submit">Search</button>
+        </form>
+      }
+      {loggedIn && festival && (
         <>
           {/* <p>{percentLoaded}</p> */}
-          <button onClick={selectFestival}>Search Festival</button>
+          
+          <h1>{festival.name}</h1>
+          <h3>{formatDate(festival.startDate)} - {formatDate(festival.endDate)}</h3>
           <button onClick={populatePlaylist}>Populate Playlist</button>
           <button onClick={createPlaylist}>Download Playlist</button>
-          <div className='dashboard'>
+          <div className='dashboard'> 
             <LineUp lineUp={lineUp} getArtist={getArtist} setArtist={setArtist} />
             <Artist artist={artist} />
             <Tracks tracks={tracks} />

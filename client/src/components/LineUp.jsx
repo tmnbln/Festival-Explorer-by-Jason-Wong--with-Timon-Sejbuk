@@ -3,8 +3,6 @@ import { useState, useEffect } from 'react';
 
 function LineUp({ lineUp, getArtist, setArtist }) {
   
-  console.log('LINEUP', lineUp)
-
   const selectArtist = (e) => {
     getArtist(e.target.id, setArtist);
   }
