@@ -33,8 +33,9 @@ const getTokenFromUrl = () => {
 // ];
 
 let artistIndex = 0;
-let lineUp = artistList.slice(0, 40);
+let lineUp = artistList;
 // console.log(lineUp);
+const playlistURIs = [];
 
 function App() {
 
@@ -44,7 +45,6 @@ function App() {
   const [artist, setArtist] = useState('');
   const [tracks, setTracks] = useState([]);
   const [relatedArtists, setRelatedArtists] = useState([]);
-  const playlistURIs = [];
 
   useEffect(() => {
     const accessToken = getTokenFromUrl().access_token;
@@ -62,6 +62,7 @@ function App() {
     // console.log('logged in change');
     if (!loggedIn) return;
     getArtist(lineUp[0].name, setArtist);
+    setTimeout(() => { populatePlaylist() }, 1000);
   }, [loggedIn])
 
 
@@ -103,21 +104,20 @@ function App() {
 
   const populatePlaylist = () => {
     playlistURIs.splice(0, playlistURIs.length);
-    lineUp.forEach(artist => {
-      getArtist(artist.name, (data) => {
-        getArtistTracks(data.id, (data) => {
-          data.forEach(track => playlistURIs.push(track.uri));
-        });
-      })
-    })
-    console.log(playlistURIs)
+    for (let i = 0; i < lineUp.length; i++) {
+      setTimeout(() => {
+        console.log(lineUp[i].name);
+        getArtist(lineUp[i].name, (data) => {
+          getArtistTracks(data.id, (data) => {
+            data.forEach(track => playlistURIs.push(track.uri));
+          });
+        })
+      }, i * 50)
+    }
   }
 
-
-  
-
   const createPlaylist = async () => {
-    // await populatePlaylist();
+    console.log('PURI', playlistURIs);
     const batches = Math.ceil(playlistURIs.length / 100);
     const remainder = playlistURIs.length % 100;
     
@@ -142,7 +142,7 @@ function App() {
               .then((res) => {
                 console.log(res);
               })
-          }, 1000)
+          }, i * 200)
         }
       })
       })
@@ -153,7 +153,6 @@ function App() {
       {!loggedIn && <a href="http://localhost:8888/login">Log in</a>}
       {loggedIn && (
         <>
-          <button onClick={populatePlaylist}>Populate Playlist</button>
           <button onClick={createPlaylist}>Download Playlist</button>
           <LineUp lineUp={lineUp} getArtist={getArtist} setArtist={setArtist} />
           <Artist artist={artist} />
