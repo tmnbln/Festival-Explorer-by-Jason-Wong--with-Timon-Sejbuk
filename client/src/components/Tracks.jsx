@@ -17,7 +17,6 @@ function Tracks({ tracks }) {
   return (
     <div className="Tracks">
       <h3>Tracks</h3>
-      <audio controls></audio>
       {tracks.length === 0 ? <></> :
         <div >
           {tracks.map((track) => <p onClick={playTrack} id={track.preview_url} key={track.id}>{track.name}</p>)}

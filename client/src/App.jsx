@@ -5,7 +5,6 @@ import LineUp from './components/LineUp';
 import Artist from './components/Artist';
 import Tracks from './components/Tracks';
 import RelatedArtists from './components/RelatedArtists';
-// import artistList from './data/index';
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -17,20 +16,20 @@ const getTokenFromUrl = () => {
   }, {});
 }
 
-let lineUp = [
-  {
-    name: 'DMX',
-    id: 0
-  },
-  {
-    name: 'Dua Lipa',
-    id: 1
-  },
-  {
-    name: 'Coldplay',
-    id: 2
-  },
-];
+// let lineUp = [
+  // {
+  //   name: 'DMX',
+  //   id: 0
+  // },
+  // {
+  //   name: 'Dua Lipa',
+  //   id: 1
+  // },
+  // {
+  //   name: 'Coldplay',
+  //   id: 2
+  // },
+// ];
 
 // let artistIndex = 0;
 // let lineUp = artistList.slice(0, 50);
@@ -41,6 +40,8 @@ function App() {
 
   const [spotifyToken, setSpotifyToken] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
+  const [festival, setFestival] = useState({});
+  const [lineUp, setLineUp] = useState([]);
   const [artist, setArtist] = useState('');
   const [tracks, setTracks] = useState([]);
   const [relatedArtists, setRelatedArtists] = useState([]);
@@ -61,10 +62,17 @@ function App() {
   useEffect(() => {
     // console.log('logged in change');
     if (!loggedIn) return;
-    getArtist(lineUp[0].name, setArtist);
+    // getArtist(lineUp[0].name, setArtist);
     // setTimeout(() => { populatePlaylist() }, 1000);
   }, [loggedIn])
 
+
+  useEffect(() => {
+    if (!festival.performer) return;
+    setLineUp(festival.performer);
+    getArtist(festival.performer[0].name, setArtist);
+  }, [festival])
+  
 
   useEffect(() => {
     // console.log('artist changed');
@@ -101,7 +109,6 @@ function App() {
       cb(res);
     })
   }
-
   
   const populatePlaylist = async () => {
     playlistURIs.splice(0, playlistURIs.length);
@@ -150,12 +157,30 @@ function App() {
       })
   }
 
+  const getFestival = async (festivalName, cb) => {
+    const url = "http://localhost:8888/festival";
+    const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({festivalName})
+      };
+
+    const response = await fetch(url, requestOptions);
+    const body = await response.json();
+    cb(body[0]);
+  }
+
+  const selectFestival = () => {
+    getFestival('Wireless Festival', setFestival);
+  }
+
   return (
     <div className="App">
       {!loggedIn && <a href="http://localhost:8888/login">Log in</a>}
       {loggedIn && (
         <>
           {/* <p>{percentLoaded}</p> */}
+          <button onClick={selectFestival}>Search Festival</button>
           <button onClick={populatePlaylist}>Populate Playlist</button>
           <button onClick={createPlaylist}>Download Playlist</button>
           <div className='dashboard'>

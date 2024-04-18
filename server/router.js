@@ -9,7 +9,7 @@ router.get('/callback', auth.callback);
 
 router.get('/refresh_token', auth.refreshToken);
 
-router.get('/festival', controller.getOneFestival);
+router.post('/festival', controller.getOneFestival);
 
 router.get('/festivals', controller.getAllFestivals);
 

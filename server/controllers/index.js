@@ -2,9 +2,7 @@ const model = require('../model/model');
 
 const getOneFestival = async (req, res) => {
   try {
-    console.log('get one')
-    const name = req.body.name;
-    console.log('NAME', name)
+    const name = req.body.festivalName;
     const festival = await model.getOneFestival(name);
     res.status(200);
     res.send(festival);
