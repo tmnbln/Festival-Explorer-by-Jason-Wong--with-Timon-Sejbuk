@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
 :root {
-  --clr-background-500: #010;
+  --clr-background-300: #bcbcbc;
+  --clr-background-500: #1e1e1e;
   --clr-primary-100: #f8f1ee;
   --clr-primary-200: #eaddd7;
   --clr-primary-300: #d2bab0;
@@ -9,7 +10,7 @@
   --clr-primary-400: #846358;
   --clr-text-white: #ffffff;
   --clr-text-muted: #808080;
-  --clr-text-special: #d2bab0;
+  --clr-text-primary: #d2bab0;
   --ff-primary: inter, sans-serif;
   /* --fs-400: 1rem;
   --fs-500: 1.1em;
@@ -28,3 +29,6 @@
   /* text-transform: uppercase; */
 }
 
+body {
+  background-color: var(--clr-background-500);
+}

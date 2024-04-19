@@ -1,4 +1,3 @@
-import '../styles/Login.css'
 import spotifyLogo from '../assets/Spotify_Logo_RGB_Green.png'
 
 function Login() {
@@ -14,8 +13,8 @@ function Login() {
         </a>
       </div>
 
-      <div id="login-title-container">
-        <h1 id="login-title">festify</h1>
+      <div className="festify-title-container">
+        <h1 className="festify-title">festify</h1>
       </div>
 
     </div>

@@ -1,8 +1,9 @@
 import '../App.css'
 import { useState, useEffect } from 'react';
 
-function LineUp({ lineUp, getArtist, setArtist, topArtists}) {
+function LineUp({artist, lineUp, getArtist, setArtist, topArtists}) {
   
+  let name = artist.name 
   const selectArtist = (e) => {
     getArtist(e.target.id, setArtist);
   }
@@ -18,7 +19,7 @@ function LineUp({ lineUp, getArtist, setArtist, topArtists}) {
       {lineUp.length === 0 ? <></> :
         <div>
           <p onClick={shuffleArtist}>Shuffle</p>
-          {lineUp.map((artist) => <p onClick={selectArtist} id={artist.name} key={artist.performerId}>{artist.name}</p>) }
+          {lineUp.map((artist) => <p className={artist.name == name ? "artist-selected" : "artist-name"}  onClick={selectArtist} id={artist.name} key={artist.performerId}>{artist.name}</p>) }
         </div>
       }   
     </div>

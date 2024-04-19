@@ -14,12 +14,14 @@ function Tracks({ tracks }) {
     setNowPlaying(e.target.innerHTML);
   }
 
+  tracks = tracks.slice(0, 5);
+
   return (
     <div className="tracks">
       <h3>Tracks</h3>
       {tracks.length === 0 ? <></> :
         <div >
-          {tracks.map((track) => <p onClick={playTrack} id={track.preview_url} key={track.id}>{track.name}</p>)}
+          {tracks.map((track) => <p className={track.name == nowPlaying ? "track-selected" : "track-name"} onClick={playTrack} id={track.preview_url} key={track.id}>{track.name}</p>)}
         </div>
       }   
     </div>

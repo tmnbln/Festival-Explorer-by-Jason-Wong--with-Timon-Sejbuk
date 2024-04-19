@@ -206,10 +206,12 @@ function App() {
           
           <div className='dashboard'> 
             <div className='dashboard-left'>
-              <button onClick={showTopArtists}>Top Artists</button>
-              <button onClick={populatePlaylist}>Populate Playlist</button>
-              <button onClick={createPlaylist}>Download Playlist</button>
-              <LineUp lineUp={lineUp} getArtist={getArtist} setArtist={setArtist} topArtists={topArtists} />
+              <div className="buttons">
+                <button className="playlist-button" onClick={populatePlaylist}>POPULATE</button>
+                <button className="playlist-button"  onClick={createPlaylist}>DOWNLOAD</button>
+                <button className="filter-button"  onClick={showTopArtists}>FILTER</button>
+              </div>
+            <LineUp artist={artist} lineUp={lineUp} getArtist={getArtist} setArtist={setArtist} topArtists={topArtists} />
             </div>
             <Artist artist={artist} />
             <div className='dashboard-right'>

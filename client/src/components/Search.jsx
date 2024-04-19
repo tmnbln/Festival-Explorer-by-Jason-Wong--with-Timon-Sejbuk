@@ -1,5 +1,3 @@
-import '../styles/Search.css'
-
 function Search({searchSubmit, searchHandler, searchName}) {
 
   return (
@@ -15,8 +13,8 @@ function Search({searchSubmit, searchHandler, searchName}) {
         </div>
       </div>
 
-      <div id="login-title-container">
-        <h1 id="login-title" >festify</h1>
+      <div className="festify-title-container">
+        <h1 className="festify-title" >festify</h1>
       </div>
 
     </div>
