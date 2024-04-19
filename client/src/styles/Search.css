@@ -1,0 +1,21 @@
+#search-container {
+  height: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
+
+#search-container input {
+  background-color: var(--clr-primary-300);
+  border: none;
+  height: 50px;
+  width: 600px;
+  border-radius: 10px;
+  font-size: 20px;
+  padding: 20px;
+}
+
+::placeholder {
+  color: var(--clr-primary-100);
+}

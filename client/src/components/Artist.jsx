@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 function Artist({artist}) {
 
   return (
-    <div className="Artist">
+    <div className="artist">
       {!artist ? <></> :
         <div>
           <p>{artist.name}</p>

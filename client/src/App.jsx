@@ -1,6 +1,8 @@
 import './App.css'
 import { useState, useEffect } from 'react';
 import SpotifyWebApi from 'spotify-web-api-js';
+import Login from './components/Login';
+import Search from './components/Search';
 import Header from './components/Header';
 import LineUp from './components/LineUp';
 import Artist from './components/Artist';
@@ -194,26 +196,26 @@ function App() {
 
   return (
     <div className="App">
-      {!loggedIn && <a href="http://localhost:8888/login">Log in</a>}
-      {!festival && loggedIn && 
-        <form onSubmit={searchSubmit}>
-          <input type="text" value={searchName} onChange={searchHandler}></input>
-          <button type="submit">Search</button>
-        </form>
-      }
+      {!loggedIn && <Login/>}
+      {!festival && loggedIn && <Search searchName={searchName} searchHandler={searchHandler} searchSubmit={searchSubmit} />}
       {loggedIn && festival && (
         <>
           {/* <p>{percentLoaded}</p> */}
           
           <Header festival={festival} />
-          <button onClick={showTopArtists}>Top Artists</button>
-          <button onClick={populatePlaylist}>Populate Playlist</button>
-          <button onClick={createPlaylist}>Download Playlist</button>
+          
           <div className='dashboard'> 
-            <LineUp lineUp={lineUp} getArtist={getArtist} setArtist={setArtist} topArtists={topArtists} />
+            <div className='dashboard-left'>
+              <button onClick={showTopArtists}>Top Artists</button>
+              <button onClick={populatePlaylist}>Populate Playlist</button>
+              <button onClick={createPlaylist}>Download Playlist</button>
+              <LineUp lineUp={lineUp} getArtist={getArtist} setArtist={setArtist} topArtists={topArtists} />
+            </div>
             <Artist artist={artist} />
-            <Tracks tracks={tracks} />
-            <RelatedArtists relatedArtists={relatedArtists} />
+            <div className='dashboard-right'>
+              <Tracks tracks={tracks} />
+              <RelatedArtists relatedArtists={relatedArtists} />
+            </div>
             </div>
         </>
       )}

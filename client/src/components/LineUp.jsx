@@ -14,8 +14,7 @@ function LineUp({ lineUp, getArtist, setArtist, topArtists}) {
 
 
   return (
-    <div className="Line Up">
-      <h3>Line Up</h3>
+    <div className="lineup">
       {lineUp.length === 0 ? <></> :
         <div>
           <p onClick={shuffleArtist}>Shuffle</p>

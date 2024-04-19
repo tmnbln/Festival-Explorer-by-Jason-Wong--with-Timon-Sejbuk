@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 function RelatedArtists({relatedArtists}) {
 
   return (
-    <div className="RelatedArtists">
+    <div className="relatedArtists">
       <h3>RelatedArtists</h3>
       {relatedArtists.length === 0 ? <></> :
         <div>

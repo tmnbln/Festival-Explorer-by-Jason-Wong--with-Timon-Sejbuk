@@ -15,7 +15,7 @@ function Tracks({ tracks }) {
   }
 
   return (
-    <div className="Tracks">
+    <div className="tracks">
       <h3>Tracks</h3>
       {tracks.length === 0 ? <></> :
         <div >

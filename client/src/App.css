@@ -1,10 +1,61 @@
+
+
 .App {
 
   
 }
 
 .dashboard {
+  background-color: var(--clr-background-500);
+  color: var(--clr-text-white);
   display: flex;
   flex-direction: row;
-  justify-content: start;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
 }
+
+.dashboard-left {
+  padding: 20px;
+}
+
+.lineup {
+border: 1px red solid;
+overflow: scroll;
+padding: 20px;
+height: 500px;
+}
+
+.lineup p {
+  font-size: 36px;
+  color: var(--clr-text-muted);
+
+}
+
+.artist {
+  border: 1px  blue solid;
+  padding: 20px;
+}
+
+.artist img {
+  height: 600px;
+  opacity: 0.8;
+  filter: saturate(80%);
+}
+
+
+.dashboard-right {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tracks {
+  border: 1px  green solid;
+}
+
+
+.relatedArtists {
+  border: 1px  yellow solid;
+}
+
