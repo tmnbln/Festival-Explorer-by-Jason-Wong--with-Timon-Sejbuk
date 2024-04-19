@@ -1,6 +1,7 @@
 
 
 .App {
+  text-transform: uppercase;
 }
 
 .Login {
@@ -8,8 +9,8 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding-top: 300px;
+  justify-content: center;
+  /* padding-top: 250px; */
   gap: 10px;
   align-items: center;
   color: white;
@@ -21,26 +22,55 @@
   z-index: 1;
 }
 
-.login-text-container {
+.login-container {
   /* border: 1px green solid; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 30px;
 
 }
 
-.login-text-container h2 {
+.login-container h2 {
   font-size: 36px;
   color: var(--clr-primary-100);
 }
 
-.login-text-container h3 {
+.login-container h3 {
   font-size: 30px;
   font-weight: 500;
   color: var(--clr-primary-300)
 }
+
+.login-text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.festify-title {
+  animation: appear 2s;
+  animation-iteration-count: 1;
+}
+
+@keyframes appear {
+  0% {opacity: 0%;}
+  100% {opacity: 100%;}
+  }
+
+.login-text-container{
+  animation: appear 3s;
+  animation-iteration-count: 1;
+  }
+
+/* @keyframes appear {
+  0% {opactiy: 0%;}
+  100% {opacity: 100%;}
+  } */
+
 
 #spotifyLogo {
   margin: 10px;
@@ -54,9 +84,10 @@
   flex-direction: row;
   align-items: center;
   /* justify-content: flex-end; */
-  height: 50vh;
-  letter-spacing: 2rem;
+  /* height: 10vh; */
+  letter-spacing: 0rem;
   line-height: 2;
+  margin-bottom: -50px;
 }
 
 .festify-title {
@@ -65,8 +96,10 @@
   color: transparent;
   -moz-background-clip: text;
   -webkit-background-clip: text;
-  font-size: 400px;
+  font-size: 140px;
 }
+
+
 
 #search-container {
   height: 4rem;
@@ -84,6 +117,12 @@
   border-radius: 10px;
   font-size: 20px;
   padding: 20px;
+  color: white;
+}
+
+textarea:focus, input:focus{
+    outline: none;
+    caret-color: white;
 }
 
 ::placeholder {
@@ -136,8 +175,13 @@
 .header h3 {
   font-size: 32px;
   font-weight: 400;
+  color: var(--clr-text-white)
 }
 
+.main-page {
+  animation: appear 3s;
+  animation-iteration-count: 1;
+}
 
 .dashboard {
   /* border: 1px blue solid; */
@@ -156,7 +200,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 10px 0px;
+  padding: 40px 0px;
   width: 27%;
 }
 
@@ -164,11 +208,11 @@
   /* border: 1px red solid; */
   padding: 0 20px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
   gap: 10px;
   /* width: 600px; */
-  margin: 0 0 20px 0;
+  margin: 0 0 10px 0;
 }
 
 .buttons button {
@@ -180,8 +224,9 @@
   padding: 0px 10px;
   font-size: 20px;
   color: var(--clr-text-primary);
-  background-color: var(--clr-text-muted);
+  background-color: var(--clr-background-500);
   border: 1px var(--clr-primary-300) solid;
+  font-weight: 600;
 }
 
 button:hover {
@@ -189,7 +234,7 @@ button:hover {
 }
 
 .playlist-button {
-  background-color: var(--clr-primary-400);
+  /* background-color: var(--clr-primary-400); */
    width: 140px;
 }
 
@@ -214,6 +259,10 @@ height: 500px;
   color: var(--clr-text-muted);
 }
 
+.lineup p:hover {
+  cursor: pointer;
+}
+
 .lineup .artist-selected {
   color: var(--clr-text-white)
 }
@@ -222,11 +271,25 @@ height: 500px;
   color: var(--clr-text-primary);
 }
 
-.lineup p:hover {
-  cursor: pointer;
+.lineup .artist-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 20px;
+  align-items: center;
 }
 
+.lineup .add-remove {
+  /* color: var(--clr-background-500); */
+  color: var(--clr-primary-400);
+  font-size: 20px;
+}
 
+.lineup .artist-deleted {
+  text-decoration: line-through;
+  text-decoration-thickness: 0.3rem;
+  color: var(--clr-primary-400)
+}
 
 .artist {
   /* border: 1px  blue solid; */
@@ -237,9 +300,19 @@ height: 500px;
 .artist img {
   height: 600px;
   opacity: 70%;
-  filter: saturate(80%);
+  filter: saturate(70%);
   margin: 10px 40px 10px 40px;
+  animation: grow 10s;
+  animation-iteration-count: infinite;
 }
+
+@keyframes grow {
+  0% {transform: scale(0.97)}
+  50% {transform: scale(1)}
+  100% {transform: scale(0.97)}
+  }
+
+
 
 .artist-container {
   /* border: 1px blue solid; */
@@ -254,7 +327,7 @@ height: 500px;
 
 .artist h2 {
   font-size: 34px;
-  color: var(--clr-text-primary)
+  color: var(--clr-text-white)
 }
 
 .dashboard-right {
@@ -285,11 +358,11 @@ height: 500px;
 
 .tracks .track-selected {
   color: var(--clr-text-primary);
-  animation: wiggle 1.8s;
+  animation: playing 1.8s;
   animation-iteration-count: infinite;
 }
 
-@keyframes wiggle {
+@keyframes playing {
   0% {color: var(--clr-primary-100);}
   10% {color: var(--clr-primary-200);}
   20% {color: var(--clr-primary-300);}

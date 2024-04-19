@@ -32,6 +32,7 @@ function App() {
   const [tracks, setTracks] = useState([]);
   const [relatedArtists, setRelatedArtists] = useState([]);
   const [topArtists, setTopArtists] = useState([]);
+  const [removedArtists, setRemovedArtists] = useState([]);
   // const [percentLoaded, setPercentLoaded] = useState(0);
 
   useEffect(() => {
@@ -201,17 +202,18 @@ function App() {
       {loggedIn && festival && (
         <>
           {/* <p>{percentLoaded}</p> */}
+          <div className="main-page">
           
           <Header setFestival={setFestival} festival={festival} />
           
           <div className='dashboard'> 
             <div className='dashboard-left'>
               <div className="buttons">
-                {/* <button className="playlist-button" onClick={populatePlaylist}>POPULATE</button> */}
+                <button className="playlist-button" onClick={populatePlaylist}>POPULATE</button>
                 <button className="playlist-button"  onClick={createPlaylist}>DOWNLOAD</button>
                 <button className="filter-button"  onClick={showTopArtists}>FILTER</button>
-            <LineUp artist={artist} lineUp={lineUp} getArtist={getArtist} setArtist={setArtist} topArtists={topArtists} />
               </div>
+              <LineUp artist={artist} lineUp={lineUp} getArtist={getArtist} setArtist={setArtist} topArtists={topArtists} removedArtists={removedArtists} setRemovedArtists={setRemovedArtists} />
             </div>
             <Artist artist={artist} />
             <div className='dashboard-right'>
@@ -219,6 +221,7 @@ function App() {
               <RelatedArtists relatedArtists={relatedArtists} />
             </div>
             </div>
+          </div>
         </>
       )}
 
