@@ -5,17 +5,18 @@ import moment from 'moment';
     return moment(new Date(str)).format("MMMM D");
   }
 
-function Header({ festival }) {
+function Header({ festival, setFestival }) {
   
   const emptyFestival = () => {
     console.log('click')
+    setFestival('');
   }
 
   return (
     <div className="header">
 
       <div onClick={emptyFestival} id="header-festify" className="festify-title-container">
-        <h1 id="header-festify-text" className="festify-title">festify</h1>
+        <h1 id="header-festify-text" className="festify-title">F</h1>
       </div>
       <div className="header-festival">
         <h1>{festival.name}</h1>

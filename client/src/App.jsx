@@ -202,16 +202,16 @@ function App() {
         <>
           {/* <p>{percentLoaded}</p> */}
           
-          <Header festival={festival} />
+          <Header setFestival={setFestival} festival={festival} />
           
           <div className='dashboard'> 
             <div className='dashboard-left'>
               <div className="buttons">
-                <button className="playlist-button" onClick={populatePlaylist}>POPULATE</button>
+                {/* <button className="playlist-button" onClick={populatePlaylist}>POPULATE</button> */}
                 <button className="playlist-button"  onClick={createPlaylist}>DOWNLOAD</button>
                 <button className="filter-button"  onClick={showTopArtists}>FILTER</button>
-              </div>
             <LineUp artist={artist} lineUp={lineUp} getArtist={getArtist} setArtist={setArtist} topArtists={topArtists} />
+              </div>
             </div>
             <Artist artist={artist} />
             <div className='dashboard-right'>

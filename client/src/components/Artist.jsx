@@ -19,6 +19,7 @@ function Artist({artist}) {
       {!artist ? <></> :
         <div className="artist-container">
           <img src={artist.images[0].url}></img>
+          <h2>{artist.name}</h2>
           <p>{formatNumber(artist.followers.total)} FOLLOWERS</p>
         </div>
       }   

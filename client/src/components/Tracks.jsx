@@ -10,15 +10,24 @@ function Tracks({ tracks }) {
 
   const playTrack = async (e) => {
     if (audio) audio.pause();
-    setAudio(new Audio(e.target.id));
-    setNowPlaying(e.target.innerHTML);
+    if (nowPlaying == e.target.innerHTML) {
+      setAudio(new Audio());
+      setNowPlaying('');
+    } else {
+      setAudio(new Audio(e.target.id));
+      setNowPlaying(e.target.innerHTML);
+      setTimeout(() => {
+        setAudio(new Audio());
+        setNowPlaying('');
+      }, 30000);
+    }
   }
 
   tracks = tracks.slice(0, 5);
 
   return (
     <div className="tracks">
-      <h3>Tracks</h3>
+      <h3>Top Tracks</h3>
       {tracks.length === 0 ? <></> :
         <div >
           {tracks.map((track) => <p className={track.name == nowPlaying ? "track-selected" : "track-name"} onClick={playTrack} id={track.preview_url} key={track.id}>{track.name}</p>)}

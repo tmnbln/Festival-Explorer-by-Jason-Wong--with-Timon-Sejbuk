@@ -18,7 +18,7 @@ function LineUp({artist, lineUp, getArtist, setArtist, topArtists}) {
     <div className="lineup">
       {lineUp.length === 0 ? <></> :
         <div>
-          <p onClick={shuffleArtist}>Shuffle</p>
+          <p id="shuffle-button" onClick={shuffleArtist}>Shuffle</p>
           {lineUp.map((artist) => <p className={artist.name == name ? "artist-selected" : "artist-name"}  onClick={selectArtist} id={artist.name} key={artist.performerId}>{artist.name}</p>) }
         </div>
       }   

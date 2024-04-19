@@ -100,22 +100,25 @@
   text-transform: uppercase;
   background-color: var(--clr-background-500);
   color: var(--clr-text-white);
-  padding: 30px 60px 10px 60px;
+  padding: 10px 60px 10px 120px;
 }
 
 #header-festify {
   /* border: 1px blue solid; */
-  height: 20%;
-  margin-top: -30px;
+  height: 20px;
   display: flex;
   justify-content: flex-start;
+  margin-top: -20px;
 }
 
 #header-festify-text {
   /* border: 1px blue solid; */
-  /* font-size: 66px; */
+  /* font-size: 120px; */
 }
 
+#header-festify-text:hover {
+  cursor: pointer;
+}
 
 .header-festival {
   /* border: 1px green solid; */
@@ -137,13 +140,14 @@
 
 
 .dashboard {
+  /* border: 1px blue solid; */
   background-color: var(--clr-background-500);
   color: var(--clr-text-white);
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  padding: 30px 50px;
+  padding: 0px 50px;
   text-transform: uppercase;
 }
 
@@ -153,7 +157,7 @@
   flex-direction: column;
   gap: 10px;
   padding: 10px 0px;
-  width: 30%;
+  width: 27%;
 }
 
 .buttons {
@@ -161,26 +165,37 @@
   padding: 0 20px;
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   gap: 10px;
+  /* width: 600px; */
+  margin: 0 0 20px 0;
 }
 
 .buttons button {
-  width: 250px;
-  height: 45px;
+ 
+  height: 40px;
   border: none;
   border-radius: 10px;
   text-align: left;
-  padding: 10px;
-  font-size: 24px;
-  color: var(--clr-text-white)
+  padding: 0px 10px;
+  font-size: 20px;
+  color: var(--clr-text-primary);
+  background-color: var(--clr-text-muted);
+  border: 1px var(--clr-primary-300) solid;
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 .playlist-button {
-  background-color: var(--clr-primary-400)
+  background-color: var(--clr-primary-400);
+   width: 140px;
 }
 
 .filter-button {
-  background-color: var(--clr-background-300)
+  /* background-color: var(--clr-background-300); */
+  width: 140px;
 }
 
 .lineup {
@@ -190,8 +205,12 @@ padding: 10px 20px;
 height: 500px;
 }
 
+#shuffle-button {
+  /* position:fixed; */
+}
+
 .lineup p {
-  font-size: 36px;
+  font-size: 34px;
   color: var(--clr-text-muted);
 }
 
@@ -200,8 +219,13 @@ height: 500px;
 }
 
 .lineup .artist-name:hover {
-  color: var(--clr-text-primary)
+  color: var(--clr-text-primary);
 }
+
+.lineup p:hover {
+  cursor: pointer;
+}
+
 
 
 .artist {
@@ -214,17 +238,23 @@ height: 500px;
   height: 600px;
   opacity: 70%;
   filter: saturate(80%);
-  margin: 0px 40px 20px 40px;
+  margin: 10px 40px 10px 40px;
 }
 
 .artist-container {
+  /* border: 1px blue solid; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
   font-size: 20px;
   color: var(--clr-text-primary);
+}
+
+.artist h2 {
+  font-size: 34px;
+  color: var(--clr-text-primary)
 }
 
 .dashboard-right {
@@ -235,23 +265,42 @@ height: 500px;
   flex-direction: column;
   justify-content: space-between;
   gap: 100px;
-  width: 30%;
+  width: 27%;
   color: var(--clr-text-muted);
   font-size: 22px;
 }
 
 .dashboard-right h3 {
   color: var(--clr-text-white);
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .tracks {
   /* border: 1px  green solid; */
 }
 
-.tracks .track-selected {
-  color: var(--clr-text-primary)
+.tracks p:hover {
+  cursor: pointer;
 }
+
+.tracks .track-selected {
+  color: var(--clr-text-primary);
+  animation: wiggle 1.8s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes wiggle {
+  0% {color: var(--clr-primary-100);}
+  10% {color: var(--clr-primary-200);}
+  20% {color: var(--clr-primary-300);}
+  30% {color: var(--clr-primary-400);}
+  40% {color: var(--clr-primary-300);}
+  50% {color: var(--clr-primary-200);}
+  60% {color: var(--clr-primary-100);}
+  70% {color: var(--clr-primary-200);}
+  80% {color: var(--clr-primary-300);}
+  90% {color: var(--clr-primary-200);}
+  }
 
 .tracks .track-name:hover {
   color: var(--clr-text-primary)
