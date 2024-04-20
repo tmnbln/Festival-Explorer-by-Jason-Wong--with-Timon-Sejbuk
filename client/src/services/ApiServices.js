@@ -1,28 +1,51 @@
 import SpotifyWebApi from 'spotify-web-api-js';
 
+// get festival line-up from db 
+apiService.getFestival = async (festivalName, cb) => {
+  const url = "http://localhost:8888/festival";
+  const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({festivalName})
+    };
+
+  const response = await fetch(url, requestOptions);
+  const body = await response.json();
+  cb(body[0]);
+}
+
+//initialise new spotify api instance 
 const spotifyApi = new SpotifyWebApi();
 
 const apiService = {};
 
+// set spotify access token
+apiService.setAccessToken = (accessToken) => {
+  spotifyApi.setAccessToken(accessToken);
+}
+
+// search for artist by name 
 apiService.getArtist = (artistName, cb) => {
   spotifyApi.searchArtists(artistName).then((res) => {
     cb(res.artists.items[0])
   })
 }
 
+// get artist top tracks by spotify artist id 
 apiService.getArtistTracks = (artistId, cb) => {
     spotifyApi.getArtistTopTracks(artistId).then((res) => {
       cb(res.tracks);
     })
   }
 
-
+// get artist related artists by spotify artist id
 apiService.getRelatedArtists = (artistId, cb) => {
     spotifyApi.getArtistRelatedArtists(artistId).then((res) => {
       cb(res.artists);
     })
   }
 
+// get user top 100 tracks 
 apiService.getTopArtists = async (arr, cb) => {
   await spotifyApi.getMyTopArtists({ 'limit': '50' })
     .then((res) => {
@@ -38,17 +61,19 @@ apiService.getTopArtists = async (arr, cb) => {
   }) 
 }
 
+// get user ID 
 apiService.getUserId = async () => {
   return spotifyApi.getMe()
     .then((res) =>  res.id);
 }
 
+// create new playlist for user 
 apiService.createPlaylist = (userId, festivalName, festivalDescription) => {
   return spotifyApi.createPlaylist(userId, { 'name': `${festivalName} 2024`, 'description': `${festivalDescription}` })
     .then((res) => res.id);
 }
 
-
+// add tracks to playlist for playlist with specific id 
 apiService.addTracksToPlaylist = (playlistId, playlistURIs) => {
   const batches = Math.ceil(playlistURIs.length / 100);
   const remainder = playlistURIs.length % 100;
@@ -63,19 +88,6 @@ apiService.addTracksToPlaylist = (playlistId, playlistURIs) => {
         .then((res) => console.log(res))
     }, i * 200)
   }
-}
-
-apiService.getFestival = async (festivalName, cb) => {
-  const url = "http://localhost:8888/festival";
-  const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({festivalName})
-    };
-
-  const response = await fetch(url, requestOptions);
-  const body = await response.json();
-  cb(body[0]);
 }
 
 export default apiService;

@@ -4,6 +4,7 @@ import SpotifyWebApi from 'spotify-web-api-js';
 import apiService from './services/ApiServices';
 import helpers from './helpers/helpers';
 
+// custom app components 
 import Login from './components/Login';
 import Search from './components/Search';
 import Header from './components/Header';
@@ -12,20 +13,9 @@ import Artist from './components/Artist';
 import Tracks from './components/Tracks';
 import RelatedArtists from './components/RelatedArtists';
 
-const spotifyApi = new SpotifyWebApi();
-
-const getTokenFromUrl = () => {
-  return window.location.hash.substring(1).split('&').reduce((initial, item) => {
-    let parts = item.split('=')
-    initial[parts[0]] = decodeURIComponent(parts[1]);
-    return initial;
-  }, {});
-}
-
 const playlistURIs = [];
 
 function App() {
-
   const [spotifyToken, setSpotifyToken] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
   const [festival, setFestival] = useState('');
@@ -35,23 +25,20 @@ function App() {
   const [relatedArtists, setRelatedArtists] = useState([]);
   const [topArtists, setTopArtists] = useState([]);
   const [removedArtists, setRemovedArtists] = useState([]);
- 
   // const [percentLoaded, setPercentLoaded] = useState(0);
 
   useEffect(() => {
-    const accessToken = getTokenFromUrl().access_token;
+    const accessToken = helpers.getTokenFromUrl().access_token;
     window.location.hash = '';
-    
     if (accessToken) {
       setSpotifyToken(accessToken);
-      spotifyApi.setAccessToken(accessToken);
+      apiService.setAccessToken(accessToken);
       setLoggedIn(true);
     }
   })
 
   useEffect(() => {
     if (!loggedIn) return;
-    // setTimeout(() => { populatePlaylist() }, 1000);
   }, [loggedIn])
 
   useEffect(() => {

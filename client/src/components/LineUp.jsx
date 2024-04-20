@@ -45,9 +45,7 @@ function LineUp({artist, lineUp, setArtist, topArtists, removedArtists, setRemov
                 </span>
                 {artist.name.toString().toLowerCase() == name && !removedArtists.includes(index)  ? <p className="add-remove" id={index} onClick={removeArtist}> remove </p> : <></>}
                 {artist.name.toString().toLowerCase() == name && removedArtists.includes(index)  ? <p className="add-remove" id={index} onClick={addArtist}> add </p> : <></>}
-                {/* <p> {removedArtists.includes(index) ? "DELETED" : ""}</p> */}
               </div>
-            
             </>
           )}
         </div>
