@@ -140,6 +140,7 @@ textarea:focus, input:focus{
   background-color: var(--clr-background-500);
   color: var(--clr-text-white);
   padding: 10px 60px 10px 120px;
+  /* border-bottom: 1px var(--clr-primary-300) solid; */
 }
 
 #header-festify {
@@ -253,12 +254,14 @@ button:hover {
 
 .filter-search {
   /* border: 1px red solid; */
+  border-left: 1px var(--clr-primary-400) solid;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   padding: 0 20px;
   font-size: 34px;
+  /* width: 50%; */
 }
 
 /* .lineup {
@@ -297,6 +300,18 @@ button:hover {
 
 .filter-search {
   margin-bottom: 10px;
+}
+
+.genre-option {
+  color: var(--clr-text-muted);
+  font-weight: 400;
+  font-size: 24px;
+  padding-left: 10px;
+}
+
+.genre-option:hover {
+  cursor: pointer;
+  color: var(--clr-text-primary)
 }
 
 .lineup p {
@@ -395,6 +410,9 @@ button:hover {
 
 .tracks {
   /* border: 1px  green solid; */
+  /* border-bottom: 1px var(--clr-primary-300) solid; */
+  /* border-right: 1px var(--clr-primary-300) solid; */
+
 }
 
 .tracks p:hover {
@@ -424,8 +442,8 @@ button:hover {
   color: var(--clr-text-primary)
 }
 
-
-.relatedArtists {
+.relatedArtists h3, .tracks h3  {
   /* border: 1px  yellow solid; */
+  /* border-bottom: 1px  var(--clr-primary-300) solid; */
 }
 

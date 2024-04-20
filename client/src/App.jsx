@@ -180,6 +180,7 @@ function App() {
   const searchSubmit = (e) => {
     e.preventDefault();
     getFestival(searchName, setFestival);
+    
 
   }
 

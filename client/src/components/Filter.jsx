@@ -1,25 +1,13 @@
 import '../App.css'
 import { useState, useEffect, useRef } from 'react';
+import { genreArr } from '../assets/genres';
 
-
-function Filter({ lineUp, getArtist, setArtist, filterByHeadliners, setFilterByHeadliners, filterByTop, setFilterByTop}) {
+function Filter({ lineUp, getArtist, setArtist, filterByHeadliners, setFilterByHeadliners, filterByTop, setFilterByTop, filterByGenre, setFilterByGenre}) {
 
   const [filterOptions, setFilterOptions] = useState(false);
   const [genreOptions, setGenreOptions] = useState(false);
 
-  // const genres = {
-  //   edm,
-  //   indie,
-  //   rock,
-  //   pop,
-  //   punk,
-  //   rhythm-and-blues-soul: "rnb",
-  //   folk,
-  //   hip-hop-rap: "hip-hop",
-  //   metal,
-  //   jazz,
-  // };
- 
+  
   const shuffleArtist = () => {
     const index = Math.floor(Math.random() * lineUp.length);
     getArtist(lineUp[index].name, setArtist);
@@ -41,6 +29,11 @@ function Filter({ lineUp, getArtist, setArtist, filterByHeadliners, setFilterByH
     setGenreOptions(!genreOptions);
   }
 
+  const toggleFilterByGenre = (e) => {
+    const genreSelected = e.target.innerHTML;
+    if (filterByGenre == genreSelected) setFilterByGenre('');
+    else setFilterByGenre(genreSelected);
+  }
 
   return (
     <div className="filter-search">
@@ -49,13 +42,14 @@ function Filter({ lineUp, getArtist, setArtist, filterByHeadliners, setFilterByH
 
       {filterOptions === true ? 
         <>
-          <p className="filter-option" onClick={toggleGenreOptions}>By Genre</p>
+          <p className={`filter-option ${filterByGenre ? `selected-filter` : ``}`} onClick={toggleGenreOptions}>By Genre</p>
+          
           {genreOptions === true ?
             <>
-              {/* <p className={`genre-option`}>edm</p> */}
- 
+              {genreArr.map((genre) => <p className={`genre-option ${filterByGenre === genre ? `selected-filter` : ``}`} key={genre} onClick={toggleFilterByGenre}>{genre}</p>)}
             </>
             : <></>}
+          
           <p className={`filter-option ${filterByHeadliners ? `selected-filter` : ``}`} onClick={toggleFilterByHeadliners}>By Headliners</p>
           <p className={`filter-option ${filterByTop ? `selected-filter` : ``}`} onClick={toggleFilterByTop}>By My Top 100</p>
         </>

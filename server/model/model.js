@@ -27,7 +27,7 @@ async function getOneFestival(name) {
 }
 
 async function getAllFestivals() {
-  return await Festival.find({});
+  return await Festival.find({}).select('name');
 }
 
 async function addFestival(festival) {
