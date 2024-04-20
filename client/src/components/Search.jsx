@@ -1,4 +1,5 @@
 import { useState } from "react";
+import apiService from "../services/ApiServices";
 
 function Search({ getFestival, setFestival }) {
 
@@ -10,7 +11,7 @@ function Search({ getFestival, setFestival }) {
 
   const searchSubmit = (e) => {
     e.preventDefault();
-    getFestival(searchValue, setFestival);
+    apiService.getFestival(searchValue, setFestival)
   }
 
   return (

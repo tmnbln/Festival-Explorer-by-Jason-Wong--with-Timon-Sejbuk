@@ -362,7 +362,7 @@ button:hover {
   opacity: 70%;
   filter: saturate(70%);
   margin: 10px 40px 10px 40px;
-  animation: grow 10s;
+  animation: grow 5s linear;
   animation-iteration-count: infinite;
 }
 

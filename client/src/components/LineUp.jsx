@@ -2,18 +2,20 @@ import '../App.css'
 import { useState, useEffect } from 'react';
 import Filter from './Filter';
 import { genreObj } from '../assets/genres';
+import apiService from '../services/ApiServices';
 
-function LineUp({artist, lineUp, getArtist, setArtist, topArtists, removedArtists, setRemovedArtists}) {
+function LineUp({artist, lineUp, setArtist, topArtists, removedArtists, setRemovedArtists}) {
   
   const [filterByHeadliners, setFilterByHeadliners] = useState(false);
   const [filterByTop, setFilterByTop] = useState(false);
   const [filterByGenre, setFilterByGenre] = useState('');
 
-  
-  let name = artist.name;
+  let name = undefined
+  if(artist) name = artist.name.toString().toLowerCase();
   
   const selectArtist = (e) => {
-    getArtist(e.target.id, setArtist);
+    apiService.getArtist(e.target.id, setArtist);
+    console.log(e.target.innerHTML, name)
   }
   
   const removeArtist = (e) => {
@@ -26,12 +28,12 @@ function LineUp({artist, lineUp, getArtist, setArtist, topArtists, removedArtist
   // FILTER LINE UP 
   if (filterByHeadliners) lineUp = lineUp.filter(artist => artist.isHeadliner);
   if (filterByTop) lineUp = lineUp.filter(artist => topArtists.includes(artist.name));
-  if(filterByGenre != '') lineUp = lineUp.filter(artist => artist.genre.includes(genreObj[filterByGenre]));
+  if (filterByGenre != '') lineUp = lineUp.filter(artist => artist.genre.includes(genreObj[filterByGenre]));
   
   
   return (
     <>
-      <Filter lineUp={lineUp} getArtist={getArtist} setArtist={setArtist} filterByHeadliners={filterByHeadliners} setFilterByHeadliners={setFilterByHeadliners} filterByTop={filterByTop} setFilterByTop={setFilterByTop} filterByGenre={ filterByGenre } setFilterByGenre={setFilterByGenre} removedArtists={removedArtists} />
+      <Filter lineUp={lineUp} setArtist={setArtist} filterByHeadliners={filterByHeadliners} setFilterByHeadliners={setFilterByHeadliners} filterByTop={filterByTop} setFilterByTop={setFilterByTop} filterByGenre={ filterByGenre } setFilterByGenre={setFilterByGenre} removedArtists={removedArtists} />
     <div className="lineup">
       {lineUp.length === 0 ? <></> :
         <div>
@@ -39,10 +41,10 @@ function LineUp({artist, lineUp, getArtist, setArtist, topArtists, removedArtist
             <>
               <div key={artist.id} className="artist-item">
                 <span className={removedArtists.includes(index) ? "artist-deleted" : null}>
-                <p className={artist.name == name ? "artist-selected" : "artist-name"}  onClick={selectArtist} id={artist.name} key={artist.performerId}>{artist.name}</p>
+                <p className={artist.name.toString().toLowerCase() == name ? "artist-selected" : "artist-name"}  onClick={selectArtist} id={artist.name} key={artist.performerId}>{artist.name}</p>
                 </span>
-                {artist.name == name && !removedArtists.includes(index)  ? <p className="add-remove" id={index} onClick={removeArtist}> remove </p> : <></>}
-                {artist.name == name && removedArtists.includes(index)  ? <p className="add-remove" id={index} onClick={addArtist}> add </p> : <></>}
+                {artist.name.toString().toLowerCase() == name && !removedArtists.includes(index)  ? <p className="add-remove" id={index} onClick={removeArtist}> remove </p> : <></>}
+                {artist.name.toString().toLowerCase() == name && removedArtists.includes(index)  ? <p className="add-remove" id={index} onClick={addArtist}> add </p> : <></>}
                 {/* <p> {removedArtists.includes(index) ? "DELETED" : ""}</p> */}
               </div>
             
