@@ -2,8 +2,11 @@ const { dataPage1, dataPage2 } = require('./data');
 const model = require('../model/model');
 const events = [...dataPage1.events, ...dataPage2.events];
 
-let genres = {};
 
+
+// used to calculate top genres
+
+let genres = {};
 events.forEach(event => {
   event.performer.forEach(artist => {
     artist.genre.forEach(genre => {
@@ -19,6 +22,9 @@ genresSorted.forEach(genre => {
   let count = genres[genre];
   console.log(genre, count);
 })
+
+
+// used to seed db with data from jambase api 
 
 // events.forEach(event => {
 

@@ -1,19 +1,5 @@
 import SpotifyWebApi from 'spotify-web-api-js';
 
-// get festival line-up from db 
-apiService.getFestival = async (festivalName, cb) => {
-  const url = "http://localhost:8888/festival";
-  const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({festivalName})
-    };
-
-  const response = await fetch(url, requestOptions);
-  const body = await response.json();
-  cb(body[0]);
-}
-
 //initialise new spotify api instance 
 const spotifyApi = new SpotifyWebApi();
 
@@ -89,5 +75,20 @@ apiService.addTracksToPlaylist = (playlistId, playlistURIs) => {
     }, i * 200)
   }
 }
+
+// get festival line-up from db 
+apiService.getFestival = async (festivalName, cb) => {
+  const url = "http://localhost:8888/festival";
+  const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({festivalName})
+    };
+
+  const response = await fetch(url, requestOptions);
+  const body = await response.json();
+  cb(body[0]);
+}
+
 
 export default apiService;

@@ -21,7 +21,7 @@ async function login (req, res) {
   const state = generateRandomString(16);
   res.cookie(stateKey, state);
 
-  // your application requests authorization
+  // application requests authorization
   const scope = 'user-read-private user-read-email user-read-playback-state user-top-read playlist-modify-private playlist-modify-public';
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
@@ -35,8 +35,7 @@ async function login (req, res) {
 
 async function callback (req, res) {
 
-  // your application requests refresh and access tokens
-  // after checking the state parameter
+  // application requests refresh and access tokens after checking the state parameter
 
   const code = req.query.code || null;
   const state = req.query.state || null;
@@ -75,7 +74,6 @@ async function callback (req, res) {
         //   json: true
         // };
 
-        // // use the access token to access the Spotify Web API
         // request.get(options, function(error, response, body) {
         //   console.log(body);
         // });
