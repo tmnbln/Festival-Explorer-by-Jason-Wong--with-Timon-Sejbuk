@@ -20,6 +20,7 @@ events.forEach(event => {
       performerId: performer['identifier'],
       image: performer['image'],
       bandOrMusician: performer['x-bandOrMusician'],
+      genre: performer['genre'],
       performanceDate: performer['x-performanceDate'],
       performanceRank: performer['x-performanceRank'],
       isHeadliner: performer['x-isHeadliner'],

@@ -13,6 +13,7 @@ const festivalSchema = new mongoose.Schema({
     performerId: String,
     image: String,
     bandOrMusician: String,
+    genre: [String],
     performanceDate: String,
     performanceRank: Number,
     isHeadliner: Boolean,
