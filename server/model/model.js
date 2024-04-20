@@ -1,5 +1,4 @@
 const mongoose = require('./index');
-const {eventTest} = require('../data/data temp');
 
 const festivalSchema = new mongoose.Schema({
   name: String,

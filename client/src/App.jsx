@@ -72,11 +72,11 @@ function App() {
     playlistURIs.slice(0, playlistURIs.length);
   }
 
-  const populatePlaylist = () => {
+  const populatePlaylist = async () => {
     helpers.playlist.populate(lineUp, removedArtists, playlistURIs);
   }
 
-  const createPlaylist = () => {
+  const createPlaylist = async () => {
     helpers.playlist.create(festival, playlistURIs);
   }
 
