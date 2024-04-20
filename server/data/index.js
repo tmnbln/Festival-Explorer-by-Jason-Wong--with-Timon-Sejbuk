@@ -2,33 +2,51 @@ const { dataPage1, dataPage2 } = require('./data');
 const model = require('../model/model');
 const events = [...dataPage1.events, ...dataPage2.events];
 
+let genres = {};
+
 events.forEach(event => {
-
-  const newEvent = {
-    name: event.name,
-    festivalId: event.identifier,
-    image: event.image,
-    startDate: event.startDate,
-    endDate: event.endDate,
-    performer: [],
-  };
-
-  event.performer.forEach(performer => {
-    const newPerformer = {
-      performerType: performer['@type'],
-      name: performer['name'],
-      performerId: performer['identifier'],
-      image: performer['image'],
-      bandOrMusician: performer['x-bandOrMusician'],
-      genre: performer['genre'],
-      performanceDate: performer['x-performanceDate'],
-      performanceRank: performer['x-performanceRank'],
-      isHeadliner: performer['x-isHeadliner'],
-    }
-    newEvent.performer.push(newPerformer);
+  event.performer.forEach(artist => {
+    artist.genre.forEach(genre => {
+      if (genres[genre]) genres[genre]++;
+      else genres[genre] = 1;
+    })
   })
-
-  console.log(newEvent);
-  model.addFestival(newEvent);
 })
+
+genresSorted = Object.keys(genres).sort((a, b) => genres[b] - genres[a]);
+
+genresSorted.forEach(genre => {
+  let count = genres[genre];
+  console.log(genre, count);
+})
+
+// events.forEach(event => {
+
+//   const newEvent = {
+//     name: event.name,
+//     festivalId: event.identifier,
+//     image: event.image,
+//     startDate: event.startDate,
+//     endDate: event.endDate,
+//     performer: [],
+//   };
+
+//   event.performer.forEach(performer => {
+//     const newPerformer = {
+//       performerType: performer['@type'],
+//       name: performer['name'],
+//       performerId: performer['identifier'],
+//       image: performer['image'],
+//       bandOrMusician: performer['x-bandOrMusician'],
+//       genre: performer['genre'],
+//       performanceDate: performer['x-performanceDate'],
+//       performanceRank: performer['x-performanceRank'],
+//       isHeadliner: performer['x-isHeadliner'],
+//     }
+//     newEvent.performer.push(newPerformer);
+//   })
+
+//   console.log(newEvent);
+//   model.addFestival(newEvent);
+// })
 
