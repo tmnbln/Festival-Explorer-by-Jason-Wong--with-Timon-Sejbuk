@@ -11,6 +11,5 @@ events
     artistList.push({name: performer['name'], id: performer['identifier']})
   }));
 
-// console.log(artistList);
 
 export default artistList;

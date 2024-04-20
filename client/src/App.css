@@ -199,7 +199,7 @@ textarea:focus, input:focus{
   /* border: 1px green solid; */
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0px;
   padding: 40px 0px;
   width: 27%;
 }
@@ -238,20 +238,65 @@ button:hover {
    width: 140px;
 }
 
+.lineup {
+  /* border: 1px red solid; */
+  overflow: scroll;
+  padding: 0px 20px;
+  height: 500px;
+}
+
+
 .filter-button {
   /* background-color: var(--clr-background-300); */
   width: 140px;
 }
 
-.lineup {
-/* border: 1px red solid; */
-overflow: scroll;
-padding: 10px 20px;
-height: 500px;
+.filter-search {
+  /* border: 1px red solid; */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 0 20px;
+  font-size: 34px;
 }
 
-#shuffle-button {
-  /* position:fixed; */
+/* .lineup {
+  border: 1px red solid;
+}
+
+.artist-item {
+  border: 1px green solid;
+} */
+
+#shuffle-filter-button {
+  color: var(--clr-text-primary);
+  font-weight: 500;
+}
+
+#shuffle-filter-button:hover {
+  cursor: pointer;
+  color: var(--clr-text-white)
+}
+
+.filter-option:hover { 
+  cursor: pointer;
+  color: var(--clr-text-primary)
+}
+
+.filter-option {
+  color: var(--clr-primary-400);
+  font-weight: 500;
+  font-size: 28px;
+  /* display: none; */
+}
+
+.filter-search .selected-filter {
+  color: var(--clr-text-primary);
+}
+
+.filter-search {
+  margin-bottom: 10px;
 }
 
 .lineup p {

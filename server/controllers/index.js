@@ -14,7 +14,6 @@ const getOneFestival = async (req, res) => {
 
 const getAllFestivals = async (req, res) => {
   try {
-    console.log('get all')
     const festival = await model.getAllFestivals();
     res.status(200);
     res.send(festival);

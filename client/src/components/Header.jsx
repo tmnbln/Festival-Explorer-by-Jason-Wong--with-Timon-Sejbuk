@@ -8,7 +8,6 @@ import moment from 'moment';
 function Header({ festival, setFestival }) {
   
   const emptyFestival = () => {
-    console.log('click')
     setFestival('');
   }
 

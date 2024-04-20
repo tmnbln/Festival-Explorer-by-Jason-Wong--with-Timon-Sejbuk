@@ -2,6 +2,7 @@ import './App.css'
 import { useState, useEffect } from 'react';
 import SpotifyWebApi from 'spotify-web-api-js';
 import Login from './components/Login';
+import Filter from './components/Filter';
 import Search from './components/Search';
 import Header from './components/Header';
 import LineUp from './components/LineUp';
@@ -33,6 +34,7 @@ function App() {
   const [relatedArtists, setRelatedArtists] = useState([]);
   const [topArtists, setTopArtists] = useState([]);
   const [removedArtists, setRemovedArtists] = useState([]);
+ 
   // const [percentLoaded, setPercentLoaded] = useState(0);
 
   useEffect(() => {
@@ -106,21 +108,13 @@ function App() {
     }) 
   }
 
-  const showTopArtists = async () => {
-    lineUp.forEach(artist => {
-      if (topArtists.includes(artist.name)) console.log(artist.name);
-    });
-    setLineUp(lineUp.filter(artist => topArtists.includes(artist.name)))
-
-
-  }
   
   const populatePlaylist = async () => {
     playlistURIs.splice(0, playlistURIs.length);
     for (let i = 0; i < lineUp.length; i++) {
       setTimeout(() => {
-        console.log(lineUp[i].name);
         getArtist(lineUp[i].name, (data) => {
+          console.log(data);
           getArtistTracks(data.id, (data) => {
             data.forEach(track => playlistURIs.push(track.uri));
           });
@@ -131,21 +125,17 @@ function App() {
   }
 
   const createPlaylist = async () => {
-    console.log('PURI', playlistURIs);
     const batches = Math.ceil(playlistURIs.length / 100);
     const remainder = playlistURIs.length % 100;
-    console.log(batches, remainder);
     
     await spotifyApi
       .getMe()
       .then((res) => {
-        console.log('userID', res.id)
         return res.id
       })
       .then((userId) => {
         spotifyApi.createPlaylist(userId, { 'name': `${festival.name} 2024`, 'description': 'festify description' })
           .then((res) => {
-            console.log('playlistID', res.id)
           return res.id
         })
       .then((playlistId) => {
@@ -155,7 +145,6 @@ function App() {
           let content = i === batches - 1 ? remainder : limit;
           let end = start + content;
           setTimeout(() => {
-            console.log(i);
             spotifyApi.addTracksToPlaylist(playlistId, playlistURIs.slice(start, end))
               .then((res) => {
                 console.log(res);
@@ -207,12 +196,11 @@ function App() {
           <Header setFestival={setFestival} festival={festival} />
           
           <div className='dashboard'> 
-            <div className='dashboard-left'>
-              <div className="buttons">
+              <div className='dashboard-left'>
+              {/* <div className="buttons">
                 <button className="playlist-button" onClick={populatePlaylist}>POPULATE</button>
                 <button className="playlist-button"  onClick={createPlaylist}>DOWNLOAD</button>
-                <button className="filter-button"  onClick={showTopArtists}>FILTER</button>
-              </div>
+              </div> */}
               <LineUp artist={artist} lineUp={lineUp} getArtist={getArtist} setArtist={setArtist} topArtists={topArtists} removedArtists={removedArtists} setRemovedArtists={setRemovedArtists} />
             </div>
             <Artist artist={artist} />
