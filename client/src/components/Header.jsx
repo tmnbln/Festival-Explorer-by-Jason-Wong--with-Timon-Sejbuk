@@ -13,7 +13,6 @@ function Header({ festival, setFestival }) {
 
   return (
     <div className="header">
-
       <div onClick={emptyFestival} id="header-festify" className="festify-title-container">
         <h1 id="header-festify-text" className="festify-title">F</h1>
       </div>

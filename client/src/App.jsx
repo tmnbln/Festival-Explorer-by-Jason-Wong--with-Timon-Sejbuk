@@ -56,10 +56,13 @@ function App() {
 
 
   useEffect(() => {
-    if (!festival.performer) return;
-    setLineUp(festival.performer);
-    getArtist(festival.performer[0].name, setArtist);
-    getTopArtists();
+    if (!festival.performer) {
+      resetDashboard();
+    } else {
+      setLineUp(festival.performer);
+      getArtist(festival.performer[0].name, setArtist);
+      getTopArtists();
+    }
   }, [festival])
   
   useEffect(() => {
@@ -75,6 +78,15 @@ function App() {
     getRelatedArtists(artist.id, setRelatedArtists);
   }, [artist])
 
+
+  const resetDashboard = () => {
+    setLineUp([]);
+    setArtist('');
+    setTracks([]);
+    setRelatedArtists([]);
+    setRemovedArtists([]);
+    playlistURIs.slice(0, playlistURIs.length);
+  }
 
   const getArtist = (artistName, cb) => {
     spotifyApi.searchArtists(artistName).then((res) => {
@@ -171,27 +183,13 @@ function App() {
     cb(body[0]);
   }
 
-  const selectFestival = () => {
-    getFestival('Wireless Festival', setFestival);
-  }
 
-  const [searchName, setSearchName] = useState('');
-  const searchHandler = (e) => {
-    setSearchName(e.target.value);
-  }
-
-  const searchSubmit = (e) => {
-    e.preventDefault();
-    getFestival(searchName, setFestival);
-    
-
-  }
 
 
   return (
     <div className="App">
       {!loggedIn && <Login/>}
-      {!festival && loggedIn && <Search searchName={searchName} searchHandler={searchHandler} searchSubmit={searchSubmit} />}
+      {!festival && loggedIn && <Search getFestival={getFestival} setFestival={setFestival} />}
       {loggedIn && festival && (
         <>
           {/* <p>{percentLoaded}</p> */}
