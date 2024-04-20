@@ -31,7 +31,7 @@ function LineUp({artist, lineUp, getArtist, setArtist, topArtists, removedArtist
   
   return (
     <>
-      <Filter lineUp={lineUp} getArtist={getArtist} setArtist={setArtist} filterByHeadliners={filterByHeadliners} setFilterByHeadliners={setFilterByHeadliners} filterByTop={filterByTop} setFilterByTop={setFilterByTop} filterByGenre={ filterByGenre } setFilterByGenre={setFilterByGenre} />
+      <Filter lineUp={lineUp} getArtist={getArtist} setArtist={setArtist} filterByHeadliners={filterByHeadliners} setFilterByHeadliners={setFilterByHeadliners} filterByTop={filterByTop} setFilterByTop={setFilterByTop} filterByGenre={ filterByGenre } setFilterByGenre={setFilterByGenre} removedArtists={removedArtists} />
     <div className="lineup">
       {lineUp.length === 0 ? <></> :
         <div>

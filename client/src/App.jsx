@@ -37,6 +37,7 @@ function App() {
  
   // const [percentLoaded, setPercentLoaded] = useState(0);
 
+
   useEffect(() => {
     const accessToken = getTokenFromUrl().access_token;
     window.location.hash = '';
@@ -112,15 +113,17 @@ function App() {
   const populatePlaylist = async () => {
     playlistURIs.splice(0, playlistURIs.length);
     for (let i = 0; i < lineUp.length; i++) {
-      setTimeout(() => {
-        getArtist(lineUp[i].name, (data) => {
-          console.log(data);
-          getArtistTracks(data.id, (data) => {
-            data.forEach(track => playlistURIs.push(track.uri));
-          });
-        })
-        // setPercentLoaded(i / (lineUp.length - 1));
-      }, i * 200)
+      if (!removedArtists.includes(i)) {
+        setTimeout(() => {
+          getArtist(lineUp[i].name, (data) => {
+            console.log(data);
+            getArtistTracks(data.id, (data) => {
+              data.forEach(track => playlistURIs.push(track.uri));
+            });
+          })
+          // setPercentLoaded(i / (lineUp.length - 1));
+        }, i * 200)
+      }
     }
   }
 
@@ -198,10 +201,10 @@ function App() {
           
           <div className='dashboard'> 
               <div className='dashboard-left'>
-              {/* <div className="buttons">
+              <div className="buttons">
                 <button className="playlist-button" onClick={populatePlaylist}>POPULATE</button>
                 <button className="playlist-button"  onClick={createPlaylist}>DOWNLOAD</button>
-              </div> */}
+              </div>
               <LineUp artist={artist} lineUp={lineUp} getArtist={getArtist} setArtist={setArtist} topArtists={topArtists} removedArtists={removedArtists} setRemovedArtists={setRemovedArtists} />
             </div>
             <Artist artist={artist} />

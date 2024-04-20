@@ -2,14 +2,16 @@ import '../App.css'
 import { useState, useEffect, useRef } from 'react';
 import { genreArr } from '../assets/genres';
 
-function Filter({ lineUp, getArtist, setArtist, filterByHeadliners, setFilterByHeadliners, filterByTop, setFilterByTop, filterByGenre, setFilterByGenre}) {
+function Filter({ lineUp, getArtist, setArtist, filterByHeadliners, setFilterByHeadliners, filterByTop, setFilterByTop, filterByGenre, setFilterByGenre, removedArtists}) {
 
   const [filterOptions, setFilterOptions] = useState(false);
   const [genreOptions, setGenreOptions] = useState(false);
 
   
   const shuffleArtist = () => {
-    const index = Math.floor(Math.random() * lineUp.length);
+    let index = undefined;
+    do index = Math.floor(Math.random() * lineUp.length);
+    while (removedArtists.includes(index));
     getArtist(lineUp[index].name, setArtist);
   }
 
