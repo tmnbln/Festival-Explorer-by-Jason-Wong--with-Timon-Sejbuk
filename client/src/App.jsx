@@ -93,7 +93,7 @@ function App() {
         <>
           {/* <p>{percentLoaded}</p> */}
           <div className="main-page">
-            {playlistLink && <SharePlaylist playlistLink={playlistLink} />}
+            {playlistLink && <SharePlaylist playlistLink={playlistLink} setPlaylistLink={setPlaylistLink} />}
             <Header setFestival={setFestival} festival={festival} />
             <div className='dashboard'> 
               <div className='dashboard-left'>
