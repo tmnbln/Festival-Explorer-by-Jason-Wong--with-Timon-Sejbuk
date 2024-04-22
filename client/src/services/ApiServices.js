@@ -59,8 +59,8 @@ apiService.createPlaylist = (userId, festivalName, festivalDescription) => {
     {
       'name': `${festivalName} 2024`,
       'description': `${festivalDescription}`,
-      'public': 'false',
-      'collaborative': 'true',
+      'public': false,
+      'collaborative': true,
  })
     .then((res) => {
       return res

@@ -4,6 +4,7 @@ import SpotifyWebApi from 'spotify-web-api-js';
 import apiService from './services/ApiServices';
 import helpers from './helpers/helpers';
 
+
 // custom app components 
 import Login from './components/Login';
 import Search from './components/Search';
@@ -12,6 +13,7 @@ import LineUp from './components/LineUp';
 import Artist from './components/Artist';
 import Tracks from './components/Tracks';
 import RelatedArtists from './components/RelatedArtists';
+import SharePlaylist from './components/SharePlaylist';
 
 const playlistURIs = [];
 
@@ -25,6 +27,7 @@ function App() {
   const [relatedArtists, setRelatedArtists] = useState([]);
   const [topArtists, setTopArtists] = useState([]);
   const [removedArtists, setRemovedArtists] = useState([]);
+  const [playlistLink, setPlaylistLink] = useState('');
   // const [percentLoaded, setPercentLoaded] = useState(0);
 
   useEffect(() => {
@@ -77,7 +80,9 @@ function App() {
   }
 
   const createPlaylist = async () => {
-    helpers.playlist.create(festival, playlistURIs);
+    const playlist = await helpers.playlist.create(festival, playlistURIs);
+    console.log(playlist);
+    setPlaylistLink(playlist.external_urls.spotify);
   }
 
   return (
@@ -87,8 +92,9 @@ function App() {
       {loggedIn && festival && (
         <>
           {/* <p>{percentLoaded}</p> */}
-        <div className="main-page">
-          <Header setFestival={setFestival} festival={festival} />
+          <div className="main-page">
+            {playlistLink && <SharePlaylist playlistLink={playlistLink} />}
+            <Header setFestival={setFestival} festival={festival} />
             <div className='dashboard'> 
               <div className='dashboard-left'>
               <div className="buttons">

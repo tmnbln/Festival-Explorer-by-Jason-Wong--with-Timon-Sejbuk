@@ -180,6 +180,7 @@ textarea:focus, input:focus{
 }
 
 .main-page {
+  /* border: 1px green solid; */
   animation: appear 3s;
   animation-iteration-count: 1;
 }
@@ -254,7 +255,7 @@ button:hover {
 
 .filter-search {
   /* border: 1px red solid; */
-  border-left: 1px var(--clr-primary-400) solid;
+  border-left: 1px var(--clr-primary-500) solid;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -429,13 +430,13 @@ button:hover {
   0% {color: var(--clr-primary-100);}
   10% {color: var(--clr-primary-200);}
   20% {color: var(--clr-primary-300);}
-  30% {color: var(--clr-primary-400);}
-  40% {color: var(--clr-primary-300);}
-  50% {color: var(--clr-primary-200);}
-  60% {color: var(--clr-primary-100);}
+  30% {color: var(--clr-primary-500);}
+  40% {color: var(--clr-primary-200);}
+  50% {color: var(--clr-primary-400);}
+  60% {color: var(--clr-primary-300);}
   70% {color: var(--clr-primary-200);}
-  80% {color: var(--clr-primary-300);}
-  90% {color: var(--clr-primary-200);}
+  80% {color: var(--clr-primary-200);}
+  90% {color: var(--clr-primary-500);}
   }
 
 .tracks .track-name:hover {
@@ -481,4 +482,59 @@ button:hover {
 
 .selected-related-artist {
   color: var(--clr-text-primary)
+}
+
+.share-playlist {
+  /* border: 1px red solid; */
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 3;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.share-modal {
+  height: 30%;
+  width: 40%;
+  background-color: var(--clr-primary-500);
+  opacity: 85%;
+  border-radius: 15px;
+  color: var(--clr-text-white);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-transform: none;
+}
+
+.share-modal img {
+  width: 30px;
+  height: 30px;
+  filter: invert(100%) sepia(100%) saturate(2%) hue-rotate(162deg) brightness(104%) contrast(101%);
+  margin-left: 1%;
+}
+
+.share-modal img:hover {
+  cursor: pointer;
+}
+
+#tick-icon {
+  height: 20px;
+  width: 20px;
+}
+
+.share-modal span {
+  width: 50%;
+  overflow:hidden;
+  text-overflow: ellipsis;
+}
+
+.playlist-link-container {
+  display: flex;
+  flex-direction: row;
+  
 }
