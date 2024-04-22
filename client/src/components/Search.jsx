@@ -1,5 +1,6 @@
 import { useState } from "react";
 import apiService from "../services/ApiServices";
+import searchIcon from '../assets/search.svg'
 
 function Search({ getFestival, setFestival }) {
 
@@ -24,6 +25,7 @@ function Search({ getFestival, setFestival }) {
           <h2>step 2</h2>
           <h3>enter a festival name</h3>
           <div id="search-container">
+            <img src={searchIcon}></img>
             <form onSubmit={searchSubmit}>
               <input type="text" value={searchValue} onChange={searchHandler} placeholder="SEARCH"></input>
             </form>

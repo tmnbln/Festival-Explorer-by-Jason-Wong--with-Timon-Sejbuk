@@ -63,8 +63,9 @@ function App() {
 
   useEffect(() => {
     if (!artist) return;
-    apiService.getArtistTracks(artist.id, setTracks);
     apiService.getRelatedArtists(artist.id, setRelatedArtists);
+    apiService.getArtistTracks(artist.id, setTracks);
+    // Promise.all(apiService.getArtistTracks(artist.id, setTracks), apiService.getRelatedArtists(artist.id, setRelatedArtists))
   }, [artist])
 
   const resetDashboard = () => {
@@ -106,7 +107,7 @@ function App() {
               <div className="buttons">
                 <button className="playlist-button"  onClick={downloadPlaylist}>DOWNLOAD</button>
               </div>
-              <LineUp artist={artist} lineUp={lineUp} setArtist={setArtist} topArtists={topArtists} removedArtists={removedArtists} setRemovedArtists={setRemovedArtists} />
+                <LineUp artist={artist} lineUp={lineUp} setArtist={setArtist} topArtists={topArtists} removedArtists={removedArtists} setRemovedArtists={setRemovedArtists} setTracks={setTracks} setRelatedArtists={ setRelatedArtists } />
             </div>
             <Artist artist={artist} />
             <div className='dashboard-right'>

@@ -4,9 +4,7 @@ import Filter from './Filter';
 import { genreObj } from '../assets/genres';
 import apiService from '../services/ApiServices';
 
-function LineUp({artist, lineUp, setArtist, topArtists, removedArtists, setRemovedArtists}) {
-  
-  if (topArtists.length) console.log(topArtists);
+function LineUp({artist, lineUp, setArtist, topArtists, removedArtists, setRemovedArtists, setTracks, setRelatedArtists}) {
   
   const [filterByHeadliners, setFilterByHeadliners] = useState(false);
   const [filterByTop, setFilterByTop] = useState(false);
@@ -15,8 +13,20 @@ function LineUp({artist, lineUp, setArtist, topArtists, removedArtists, setRemov
   let name = undefined
   if (artist) name = artist.name.toString().toLowerCase();
   
-  const selectArtist = (e) => {
-    apiService.getArtist(e.target.id, setArtist);
+  const selectArtist = async (e) => {
+    apiService.getArtist(e.target.id, (data) => setArtist(data));
+    // apiService.getArtistTracks(artist.id, (data) => setTracks(data));
+    // apiService.getRelatedArtists(artist.id, (data) => setRelatedArtists (data));
+     
+    // apiService.getArtist2(e.target.id).then(async (data) => {
+    //   await apiService.getArtistTracks(data.id, setTracks)
+    //   setArtist(data);
+    // })
+
+    // const promise1 = apiService.getArtist(e.target.id);
+    // const promise2 = apiService.getArtistTracks(artist.id, setTracks);
+    // const promise3 = apiService.getRelatedArtists(artist.id, setRelatedArtists);
+    // return Promise.all(promise1, promise2, promise3);
   }
   
   const removeArtist = (e) => {

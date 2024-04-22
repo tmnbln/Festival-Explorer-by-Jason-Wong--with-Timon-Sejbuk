@@ -17,9 +17,11 @@ apiService.getArtist = (artistName, cb) => {
   })
 }
 
-// apiService.getArtist2 = (artistName) => {
-//   return spotifyApi.searchArtists(artistName);
-// }
+apiService.getArtist2 = async (artistName) => {
+  return spotifyApi.searchArtists(artistName).then((res) => {
+    return res.artists.items[0];
+  });
+}
 
 // get artist top tracks by spotify artist id 
 apiService.getArtistTracks = (artistId, cb) => {
@@ -37,6 +39,23 @@ apiService.getRelatedArtists = (artistId, cb) => {
 
 // get user top 100 tracks 
 apiService.getTopArtists = async (arr, cb) => {
+
+  // const numberOfArtists = 150;
+  // const limit = 50;
+  // const iterations = numberOfArtists / limit;
+  // let tempArr = [];
+
+  // for (let i = 0; i < iterations; i++) {
+  //   const offset = limit * i;
+  //   spotifyApi.getMyTopArtists({ 'limit': '50', 'offset': `${offset}` })
+  //     .then((res) => {
+  //       res.items.forEach(artist => tempArr.push(artist.name));
+  //   })
+  // }
+
+  // cb(...tempArr);
+
+
   await spotifyApi.getMyTopArtists({ 'limit': '50' })
     .then((res) => {
       let tempTopArtists = [];
@@ -53,8 +72,9 @@ apiService.getTopArtists = async (arr, cb) => {
       res.items.forEach(artist => tempTopArtists.push(artist.name));
       cb([...arr, ...tempTopArtists])
     })
-    }) 
+    })
   }) 
+  
 }
 
 // get user ID 

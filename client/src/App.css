@@ -102,11 +102,21 @@
 
 
 #search-container {
+  /* border: 1px red solid; */
   height: 4rem;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   margin: 10px;
+}
+
+#search-container img {
+  position: absolute;
+  z-index: 2;
+  margin: 10px;
+  
+  /* margin: -30px; */
+
 }
 
 #search-container input {
@@ -116,7 +126,7 @@
   width: 600px;
   border-radius: 10px;
   font-size: 20px;
-  padding: 20px;
+  padding: 20px 40px;
   color: white;
 }
 
@@ -139,7 +149,7 @@ textarea:focus, input:focus{
   text-transform: uppercase;
   background-color: var(--clr-background-500);
   color: var(--clr-text-white);
-  padding: 20px 60px 0px 120px;
+  padding: 20px 60px 0px 110px;
   /* border-bottom: 1px var(--clr-primary-300) solid; */
 }
 
@@ -193,7 +203,7 @@ textarea:focus, input:focus{
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  padding: 0px 50px;
+  padding: 0px 40px;
   text-transform: uppercase;
 }
 
@@ -401,7 +411,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 100px;
+  gap: px;
   width: 27%;
   color: var(--clr-text-muted);
   font-size: 22px;
@@ -416,6 +426,9 @@ button:hover {
   /* border: 1px  green solid; */
   /* border-bottom: 1px var(--clr-primary-300) solid; */
   /* border-right: 1px var(--clr-primary-300) solid; */
+  /* overflow: auto; */
+  /* white-space: nowrap; */
+  height: 300px;
 }
 
 .tracks p:hover {
@@ -445,6 +458,12 @@ button:hover {
   color: var(--clr-text-primary)
 }
 
+.related-artists {
+  /* position: absolute; */
+  /* margin-top: 15%; */
+
+}
+
 .related-artists h3, .tracks h3  {
   /* border: 1px  yellow solid; */
   /* border-bottom: 1px  var(--clr-primary-300) solid; */
@@ -453,6 +472,8 @@ button:hover {
 .related-artists-container {
   display: flex;
   flex-direction: row;
+  overflow: none;
+  white-space: nowrap;
 }
 
 .related-artist-selected {
