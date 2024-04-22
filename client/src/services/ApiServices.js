@@ -46,7 +46,7 @@ apiService.getTopArtists = async (arr, cb) => {
     .then((tempTopArtists) => {
     spotifyApi.getMyTopArtists({ 'limit': '50', 'offset': '50' }).then((res) => {
       res.items.forEach(artist => tempTopArtists.push(artist.name));
-      cb([...arr, tempTopArtists])
+      cb([...arr, ...tempTopArtists])
     })
   }) 
 }

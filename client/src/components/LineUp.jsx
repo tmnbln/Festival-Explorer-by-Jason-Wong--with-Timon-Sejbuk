@@ -11,7 +11,7 @@ function LineUp({artist, lineUp, setArtist, topArtists, removedArtists, setRemov
   const [filterByGenre, setFilterByGenre] = useState('');
 
   let name = undefined
-  if(artist) name = artist.name.toString().toLowerCase();
+  if (artist) name = artist.name.toString().toLowerCase();
   
   const selectArtist = (e) => {
     apiService.getArtist(e.target.id, setArtist);
@@ -26,7 +26,7 @@ function LineUp({artist, lineUp, setArtist, topArtists, removedArtists, setRemov
   
   // FILTER LINE UP 
   if (filterByHeadliners) lineUp = lineUp.filter(artist => artist.isHeadliner);
-  if (filterByTop) lineUp = lineUp.filter(artist => topArtists.includes(artist.name));
+  if (filterByTop) lineUp = lineUp.filter(artist => topArtists.includes(artist.name))
   if (filterByGenre != '') lineUp = lineUp.filter(artist => artist.genre.includes(genreObj[filterByGenre]));
   
   
