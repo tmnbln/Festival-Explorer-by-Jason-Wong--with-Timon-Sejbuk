@@ -208,13 +208,13 @@ textarea:focus, input:focus{
 
 .buttons {
   /* border: 1px red solid; */
+  border-left: 1px var(--clr-primary-400) solid;
   padding: 0 20px;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-direction: column;
+  /* gap: 10px; */
   /* width: 600px; */
-  margin: 0 0 10px 0;
+  /* margin: 0 0 10px 0; */
 }
 
 .buttons button {
@@ -223,12 +223,12 @@ textarea:focus, input:focus{
   border: none;
   border-radius: 10px;
   text-align: left;
-  padding: 0px 10px;
-  font-size: 20px;
-  color: var(--clr-text-primary);
-  background-color: var(--clr-background-500);
-  border: 1px var(--clr-primary-300) solid;
+  /* padding: 0px 10px; */
+  font-size: 34px;
   font-weight: 600;
+  color: var(--clr-primary-100);
+  background-color: var(--clr-background-500);
+  /* border: 1px var(--clr-primary-500) solid; */
 }
 
 button:hover {
@@ -237,7 +237,7 @@ button:hover {
 
 .playlist-button {
   /* background-color: var(--clr-primary-400); */
-   width: 140px;
+   /* width: 140px; */
 }
 
 .lineup {

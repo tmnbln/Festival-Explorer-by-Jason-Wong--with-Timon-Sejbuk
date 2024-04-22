@@ -27,6 +27,7 @@ function App() {
   const [relatedArtists, setRelatedArtists] = useState([]);
   const [topArtists, setTopArtists] = useState([]);
   const [removedArtists, setRemovedArtists] = useState([]);
+  const [modal, setModal] = useState(false);
   const [playlistLink, setPlaylistLink] = useState('');
   // const [percentLoaded, setPercentLoaded] = useState(0);
 
@@ -75,14 +76,15 @@ function App() {
     playlistURIs.slice(0, playlistURIs.length);
   }
 
-  const populatePlaylist = async () => {
-    helpers.playlist.populate(lineUp, removedArtists, playlistURIs);
-  }
 
+  
   const createPlaylist = async () => {
-    const playlist = await helpers.playlist.create(festival, playlistURIs);
-    console.log(playlist);
-    setPlaylistLink(playlist.external_urls.spotify);
+    const tracks = await helpers.playlist.populate(lineUp, removedArtists);
+    if (tracks) {
+      const playlist = await helpers.playlist.create(festival, tracks);
+      console.log(playlist);
+      setPlaylistLink(playlist.external_urls.spotify);
+    }
   }
 
   return (
@@ -98,7 +100,6 @@ function App() {
             <div className='dashboard'> 
               <div className='dashboard-left'>
               <div className="buttons">
-                <button className="playlist-button" onClick={populatePlaylist}>POPULATE</button>
                 <button className="playlist-button"  onClick={createPlaylist}>DOWNLOAD</button>
               </div>
               <LineUp artist={artist} lineUp={lineUp} setArtist={setArtist} topArtists={topArtists} removedArtists={removedArtists} setRemovedArtists={setRemovedArtists} />

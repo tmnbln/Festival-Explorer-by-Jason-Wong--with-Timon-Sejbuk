@@ -15,7 +15,6 @@ function LineUp({artist, lineUp, setArtist, topArtists, removedArtists, setRemov
   
   const selectArtist = (e) => {
     apiService.getArtist(e.target.id, setArtist);
-    console.log(e.target.innerHTML, name)
   }
   
   const removeArtist = (e) => {

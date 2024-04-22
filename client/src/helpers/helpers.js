@@ -12,19 +12,31 @@ helpers.getTokenFromUrl = () => {
 
 helpers.playlist = {};
 
-helpers.playlist.populate = async (lineUp, removedArtists, playlistURIs) => {
-  for (let i = 0; i < lineUp.length; i++) {
-    if (!removedArtists.includes(i)) {
-      setTimeout(() => {
-        apiService.getArtist(lineUp[i].name, (data) => {
-          console.log(data);
-          apiService.getArtistTracks(data.id, (data) => {
-            data.forEach(track => playlistURIs.push(track.uri));
-          });
-        })
-        // setPercentLoaded(i / (lineUp.length - 1));
-      }, i * 200)
-    }
+helpers.playlist.populate = async (lineUp, removedArtists) => {
+  try {
+    const selectedArtists = lineUp.filter((artist, i) => !removedArtists.includes(i));
+    const tracksNested = await Promise.all(selectedArtists.map(async (artist, i) => {
+      return new Promise((res, rej) => {
+        setTimeout(() => {
+          apiService.getArtist(artist.name, (data) => {
+            apiService.getArtistTracks(data.id, (data) => {
+              let arr = [];
+              data.forEach(track => arr.push(track.uri));
+              res(arr);
+            });
+          })
+        }, 200 * i)
+      })
+    }))
+    const tracks = [];
+    tracksNested.forEach((arr)=>tracks.push(...arr))
+    console.log(tracks)
+
+    return tracks;
+  } catch (error) {
+    return new Promise((res, rej) => {
+      res(null)
+    })
   }
 }
   

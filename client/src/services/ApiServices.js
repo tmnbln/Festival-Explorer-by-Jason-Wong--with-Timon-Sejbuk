@@ -17,6 +17,10 @@ apiService.getArtist = (artistName, cb) => {
   })
 }
 
+// apiService.getArtist2 = (artistName) => {
+//   return spotifyApi.searchArtists(artistName);
+// }
+
 // get artist top tracks by spotify artist id 
 apiService.getArtistTracks = (artistId, cb) => {
     spotifyApi.getArtistTopTracks(artistId).then((res) => {
