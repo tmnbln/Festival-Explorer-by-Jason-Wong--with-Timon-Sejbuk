@@ -4,7 +4,6 @@ import SpotifyWebApi from 'spotify-web-api-js';
 import apiService from './services/ApiServices';
 import helpers from './helpers/helpers';
 
-
 // custom app components 
 import Login from './components/Login';
 import Search from './components/Search';
@@ -108,7 +107,7 @@ function App() {
                 <button className="playlist-button"  onClick={downloadPlaylist}>DOWNLOAD</button>
               </div>
                 <LineUp artist={artist} lineUp={lineUp} setArtist={setArtist} topArtists={topArtists} removedArtists={removedArtists} setRemovedArtists={setRemovedArtists} setTracks={setTracks} setRelatedArtists={ setRelatedArtists } />
-            </div>
+              </div>
             <Artist artist={artist} />
             <div className='dashboard-right'>
               <Tracks tracks={tracks} />

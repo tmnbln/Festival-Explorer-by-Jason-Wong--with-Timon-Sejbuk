@@ -10,6 +10,10 @@ helpers.getTokenFromUrl = () => {
   }, {});
 }
 
+helpers.cleanStr = (str) => {
+   return str.toString().replace(/[^a-z0-9]/gi, '').toLowerCase();
+}
+
 helpers.playlist = {};
 
 helpers.playlist.populate = async (lineUp, removedArtists) => {

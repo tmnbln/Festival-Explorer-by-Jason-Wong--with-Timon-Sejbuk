@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Filter from './Filter';
 import { genreObj } from '../assets/genres';
 import apiService from '../services/ApiServices';
+import helpers from '../helpers/helpers';
 
 function LineUp({artist, lineUp, setArtist, topArtists, removedArtists, setRemovedArtists, setTracks, setRelatedArtists}) {
   
@@ -10,9 +11,13 @@ function LineUp({artist, lineUp, setArtist, topArtists, removedArtists, setRemov
   const [filterByTop, setFilterByTop] = useState(false);
   const [filterByGenre, setFilterByGenre] = useState('');
 
+  const cleanStr = helpers.cleanStr;
+
+  if (topArtists) topArtists = topArtists.map(artist => cleanStr(artist));
+
   let name = undefined
-  if (artist) name = artist.name.toString().toLowerCase();
-  
+  if (artist) name = cleanStr(artist.name);
+
   const selectArtist = async (e) => {
     apiService.getArtist(e.target.id, (data) => setArtist(data));
     // apiService.getArtistTracks(artist.id, (data) => setTracks(data));
@@ -38,9 +43,10 @@ function LineUp({artist, lineUp, setArtist, topArtists, removedArtists, setRemov
   
   // FILTER LINE UP 
   if (filterByHeadliners) lineUp = lineUp.filter(artist => artist.isHeadliner);
-  if (filterByTop) lineUp = lineUp.filter(artist => topArtists.includes(artist.name))
+  if (filterByTop) {
+    lineUp = lineUp.filter(artist => topArtists.includes(cleanStr(artist.name)))
+  }
   if (filterByGenre != '') lineUp = lineUp.filter(artist => artist.genre.includes(genreObj[filterByGenre]));
-  
   
   return (
     <>
@@ -52,10 +58,10 @@ function LineUp({artist, lineUp, setArtist, topArtists, removedArtists, setRemov
             <>
               <div key={artist.id} className="artist-item">
                 <span className={removedArtists.includes(index) ? "artist-deleted" : null}>
-                <p className={artist.name.toString().toLowerCase() == name ? "artist-selected" : "artist-name"}  onClick={selectArtist} id={artist.name} key={artist.performerId}>{artist.name}</p>
+                <p className={cleanStr(artist.name) == name ? "artist-selected" : "artist-name"}  onClick={selectArtist} id={artist.name} key={artist.performerId}>{artist.name}</p>
                 </span>
-                {artist.name.toString().toLowerCase() == name && !removedArtists.includes(index)  ? <p className="add-remove" id={index} onClick={removeArtist}> remove </p> : <></>}
-                {artist.name.toString().toLowerCase() == name && removedArtists.includes(index)  ? <p className="add-remove" id={index} onClick={addArtist}> add </p> : <></>}
+                {cleanStr(artist.name) == name && !removedArtists.includes(index)  ? <p className="add-remove" id={index} onClick={removeArtist}> remove </p> : <></>}
+                {cleanStr(artist.name) == name && removedArtists.includes(index)  ? <p className="add-remove" id={index} onClick={addArtist}> add </p> : <></>}
               </div>
             </>
           )}
