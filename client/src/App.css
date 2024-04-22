@@ -510,6 +510,8 @@ button:hover {
   padding: 30px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 20px;
   text-transform: none;
   font-size: 20px;
@@ -546,7 +548,9 @@ filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(102%
 .playlist-link-container {
   display: flex;
   flex-direction: row;
-  color: var(--clr-text-primary)
+  color: var(--clr-text-primary);
+  width: 100%;
+  /* border: 1px red solid; */
 }
 
 #modal-close {

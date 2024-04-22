@@ -27,7 +27,7 @@ function App() {
   const [relatedArtists, setRelatedArtists] = useState([]);
   const [topArtists, setTopArtists] = useState([]);
   const [removedArtists, setRemovedArtists] = useState([]);
-  const [modal, setModal] = useState(false);
+  const [displayModal, setDisplayModal] = useState(false);
   const [playlistLink, setPlaylistLink] = useState('');
   // const [percentLoaded, setPercentLoaded] = useState(0);
 
@@ -76,9 +76,13 @@ function App() {
     playlistURIs.slice(0, playlistURIs.length);
   }
 
-
   
-  const createPlaylist = async () => {
+  // const download = async () => {
+  //   setTimeout(()=>createPlaylist(), 10000);
+  // }
+  
+  const downloadPlaylist = async () => {
+    setDisplayModal(true);
     const tracks = await helpers.playlist.populate(lineUp, removedArtists);
     if (tracks) {
       const playlist = await helpers.playlist.create(festival, tracks);
@@ -95,12 +99,12 @@ function App() {
         <>
           {/* <p>{percentLoaded}</p> */}
           <div className="main-page">
-            {playlistLink && <SharePlaylist playlistLink={playlistLink} setPlaylistLink={setPlaylistLink} />}
+            {displayModal && <SharePlaylist playlistLink={playlistLink} setDisplayModal={setDisplayModal} />}
             <Header setFestival={setFestival} festival={festival} />
             <div className='dashboard'> 
               <div className='dashboard-left'>
               <div className="buttons">
-                <button className="playlist-button"  onClick={createPlaylist}>DOWNLOAD</button>
+                <button className="playlist-button"  onClick={downloadPlaylist}>DOWNLOAD</button>
               </div>
               <LineUp artist={artist} lineUp={lineUp} setArtist={setArtist} topArtists={topArtists} removedArtists={removedArtists} setRemovedArtists={setRemovedArtists} />
             </div>

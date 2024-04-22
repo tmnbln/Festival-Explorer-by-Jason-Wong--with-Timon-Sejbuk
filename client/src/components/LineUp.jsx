@@ -6,6 +6,8 @@ import apiService from '../services/ApiServices';
 
 function LineUp({artist, lineUp, setArtist, topArtists, removedArtists, setRemovedArtists}) {
   
+  if (topArtists.length) console.log(topArtists);
+  
   const [filterByHeadliners, setFilterByHeadliners] = useState(false);
   const [filterByTop, setFilterByTop] = useState(false);
   const [filterByGenre, setFilterByGenre] = useState('');

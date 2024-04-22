@@ -54,7 +54,7 @@ function Filter({ lineUp, setArtist, filterByHeadliners, setFilterByHeadliners, 
             : <></>}
           
           <p className={`filter-option ${filterByHeadliners ? `selected-filter` : ``}`} onClick={toggleFilterByHeadliners}>By Headliners</p>
-          <p className={`filter-option ${filterByTop ? `selected-filter` : ``}`} onClick={toggleFilterByTop}>By My Top 100</p>
+          <p className={`filter-option ${filterByTop ? `selected-filter` : ``}`} onClick={toggleFilterByTop}>By My Top 150</p>
         </>
         : <></>}
       
