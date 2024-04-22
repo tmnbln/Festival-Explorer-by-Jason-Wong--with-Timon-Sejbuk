@@ -139,7 +139,7 @@ textarea:focus, input:focus{
   text-transform: uppercase;
   background-color: var(--clr-background-500);
   color: var(--clr-text-white);
-  padding: 10px 60px 10px 120px;
+  padding: 20px 60px 10px 120px;
   /* border-bottom: 1px var(--clr-primary-300) solid; */
 }
 
@@ -148,7 +148,7 @@ textarea:focus, input:focus{
   height: 20px;
   display: flex;
   justify-content: flex-start;
-  margin-top: -20px;
+  margin-top: -80px;
 }
 
 #header-festify-text {
@@ -364,6 +364,7 @@ button:hover {
   margin: 10px 40px 10px 40px;
   animation: grow 5s linear;
   animation-iteration-count: infinite;
+  /* border-radius: 15px; */
 }
 
 @keyframes grow {
@@ -441,8 +442,43 @@ button:hover {
   color: var(--clr-text-primary)
 }
 
-.relatedArtists h3, .tracks h3  {
+.related-artists h3, .tracks h3  {
   /* border: 1px  yellow solid; */
   /* border-bottom: 1px  var(--clr-primary-300) solid; */
 }
 
+.related-artists-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.related-artist-selected {
+  /* border: 1px red solid; */
+  position: absolute;
+  margin: 20px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.related-artist-selected {
+  /* border: 1px red solid; */
+  height: 200px; 
+  width: 200px;
+  overflow: hidden;
+  border-radius: 100%;
+}
+
+.related-artist-selected img {
+  width: 100%;
+  opacity: 35%;
+  filter: saturate(70%);
+}
+
+.related-artist-selected p {
+  position: absolute;
+}
+
+.selected-related-artist {
+  color: var(--clr-text-primary)
+}

@@ -55,8 +55,16 @@ apiService.getUserId = async () => {
 
 // create new playlist for user 
 apiService.createPlaylist = (userId, festivalName, festivalDescription) => {
-  return spotifyApi.createPlaylist(userId, { 'name': `${festivalName} 2024`, 'description': `${festivalDescription}` })
-    .then((res) => res.id);
+  return spotifyApi.createPlaylist(userId,
+    {
+      'name': `${festivalName} 2024`,
+      'description': `${festivalDescription}`,
+      'public': 'false',
+      'collaborative': 'true',
+ })
+    .then((res) => {
+      return res
+    });
 }
 
 // add tracks to playlist for playlist with specific id 
