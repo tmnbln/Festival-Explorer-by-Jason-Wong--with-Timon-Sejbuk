@@ -2,8 +2,9 @@ import '../App.css'
 import { useState, useEffect, useRef } from 'react';
 import { genreArr } from '../assets/genres';
 import apiService from '../services/ApiServices';
+import helpers from '../helpers/helpers';
 
-function Filter({ lineUp, setArtist, filterByHeadliners, setFilterByHeadliners, filterByTop, setFilterByTop, filterByGenre, setFilterByGenre, removedArtists}) {
+function Filter({ lineUp, setArtist, filterByHeadliners, setFilterByHeadliners, filterByTop, setFilterByTop, filterByGenre, setFilterByGenre, removedArtists, setNewArtist}) {
 
   const [filterOptions, setFilterOptions] = useState(false);
   const [genreOptions, setGenreOptions] = useState(false);
@@ -13,7 +14,8 @@ function Filter({ lineUp, setArtist, filterByHeadliners, setFilterByHeadliners, 
     let index = undefined;
     do index = Math.floor(Math.random() * lineUp.length);
     while (removedArtists.includes(index));
-    apiService.getArtist(lineUp[index].name, setArtist);
+    const artistName = lineUp[index].name;
+    setNewArtist(artistName);
   }
 
   const toggleFilter = () => {

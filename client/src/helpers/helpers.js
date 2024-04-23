@@ -14,6 +14,29 @@ helpers.cleanStr = (str) => {
    return str.toString().replace(/[^a-z0-9]/gi, '').toLowerCase();
 }
 
+helpers.setNewArtist = async (artistName, cbArtist, cbTracks, cbRelatedArtists) => {
+
+  const newArtist = await new Promise((res, rej) => {
+    apiService.getArtist(artistName, (data) => {
+      res(data);
+    })
+  })
+  
+  const tracks = new Promise((res, rej) => {
+    apiService.getArtistTracks(newArtist.id, res)
+  })
+
+  const related = new Promise((res, rej) => {
+    apiService.getRelatedArtists(newArtist.id, res)
+  })
+
+  Promise.all([tracks, related]).then((values) => {
+    cbArtist(newArtist);
+    cbTracks(values[0]);
+    cbRelatedArtists(values[1]);
+  })
+}
+
 helpers.playlist = {};
 
 helpers.playlist.populate = async (lineUp, removedArtists) => {

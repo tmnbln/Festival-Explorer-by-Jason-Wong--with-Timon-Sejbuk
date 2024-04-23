@@ -28,8 +28,9 @@ function App() {
   const [removedArtists, setRemovedArtists] = useState([]);
   const [displayModal, setDisplayModal] = useState(false);
   const [playlistLink, setPlaylistLink] = useState('');
-  // const [percentLoaded, setPercentLoaded] = useState(0);
 
+
+  // get and set spotify access token 
   useEffect(() => {
     const accessToken = helpers.getTokenFromUrl().access_token;
     window.location.hash = '';
@@ -40,32 +41,23 @@ function App() {
     }
   })
 
-  useEffect(() => {
-    if (!loggedIn) return;
-  }, [loggedIn])
+  // useEffect(() => {
+  //   if (!loggedIn) return;
+  // }, [loggedIn])
 
   useEffect(() => {
+
+    // reset dashboard if festival removed 
     if (!festival.performer) {
       resetDashboard();
+
+      // set line-up and display first artist if festival changes 
     } else {
       setLineUp(festival.performer);
-      apiService.getArtist(festival.performer[0].name, setArtist)
-      apiService.getTopArtists(topArtists, setTopArtists);
+      setNewArtist(festival.performer[0].name);
     }
   }, [festival])
   
-  useEffect(() => {
-    if (!lineUp.length) return;
-    apiService.getArtist(lineUp[0].name, setArtist);
-    apiService.getTopArtists(topArtists, setTopArtists);
-  }, [lineUp])
-
-  useEffect(() => {
-    if (!artist) return;
-    apiService.getRelatedArtists(artist.id, setRelatedArtists);
-    apiService.getArtistTracks(artist.id, setTracks);
-    // Promise.all(apiService.getArtistTracks(artist.id, setTracks), apiService.getRelatedArtists(artist.id, setRelatedArtists))
-  }, [artist])
 
   const resetDashboard = () => {
     setLineUp([]);
@@ -75,11 +67,6 @@ function App() {
     setRemovedArtists([]);
     playlistURIs.slice(0, playlistURIs.length);
   }
-
-  
-  // const download = async () => {
-  //   setTimeout(()=>createPlaylist(), 10000);
-  // }
   
   const downloadPlaylist = async () => {
     setDisplayModal(true);
@@ -91,13 +78,16 @@ function App() {
     }
   }
 
+  const setNewArtist = (artistName) => {
+    helpers.setNewArtist(artistName, setArtist, setTracks, setRelatedArtists);
+  } 
+
   return (
     <div className="App">
       {!loggedIn && <Login/>}
       {!festival && loggedIn && <Search setFestival={setFestival} />}
       {loggedIn && festival && (
         <>
-          {/* <p>{percentLoaded}</p> */}
           <div className="main-page">
             {displayModal && <SharePlaylist playlistLink={playlistLink} setDisplayModal={setDisplayModal} />}
             <Header setFestival={setFestival} festival={festival} />
@@ -106,13 +96,13 @@ function App() {
               <div className="buttons">
                 <button className="playlist-button"  onClick={downloadPlaylist}>DOWNLOAD</button>
               </div>
-                <LineUp artist={artist} lineUp={lineUp} setArtist={setArtist} topArtists={topArtists} removedArtists={removedArtists} setRemovedArtists={setRemovedArtists} setTracks={setTracks} setRelatedArtists={ setRelatedArtists } />
+                <LineUp artist={artist} lineUp={lineUp} setArtist={setArtist} topArtists={topArtists} removedArtists={removedArtists} setRemovedArtists={setRemovedArtists} setTracks={setTracks} setRelatedArtists={setRelatedArtists} setNewArtist={setNewArtist} />
               </div>
-            <Artist artist={artist} />
-            <div className='dashboard-right'>
-              <Tracks tracks={tracks} />
-              <RelatedArtists relatedArtists={relatedArtists} />
-            </div>
+              <Artist artist={artist} />
+                <div className='dashboard-right'>
+                  <Tracks tracks={tracks} />
+                  <RelatedArtists relatedArtists={relatedArtists} />
+                </div>
             </div>
           </div>
         </>

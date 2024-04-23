@@ -5,7 +5,7 @@ import { genreObj } from '../assets/genres';
 import apiService from '../services/ApiServices';
 import helpers from '../helpers/helpers';
 
-function LineUp({artist, lineUp, setArtist, topArtists, removedArtists, setRemovedArtists, setTracks, setRelatedArtists}) {
+function LineUp({artist, lineUp, setArtist, topArtists, removedArtists, setRemovedArtists, setTracks, setRelatedArtists, setLoading, setNewArtist}) {
   
   const [filterByHeadliners, setFilterByHeadliners] = useState(false);
   const [filterByTop, setFilterByTop] = useState(false);
@@ -19,21 +19,10 @@ function LineUp({artist, lineUp, setArtist, topArtists, removedArtists, setRemov
   if (artist) name = cleanStr(artist.name);
 
   const selectArtist = async (e) => {
-    apiService.getArtist(e.target.id, (data) => setArtist(data));
-    // apiService.getArtistTracks(artist.id, (data) => setTracks(data));
-    // apiService.getRelatedArtists(artist.id, (data) => setRelatedArtists (data));
-     
-    // apiService.getArtist2(e.target.id).then(async (data) => {
-    //   await apiService.getArtistTracks(data.id, setTracks)
-    //   setArtist(data);
-    // })
-
-    // const promise1 = apiService.getArtist(e.target.id);
-    // const promise2 = apiService.getArtistTracks(artist.id, setTracks);
-    // const promise3 = apiService.getRelatedArtists(artist.id, setRelatedArtists);
-    // return Promise.all(promise1, promise2, promise3);
+    const artistName = e.target.id;
+    setNewArtist(artistName);
   }
-  
+
   const removeArtist = (e) => {
     setRemovedArtists([...removedArtists, Number(e.target.id)]);
   }
@@ -43,15 +32,13 @@ function LineUp({artist, lineUp, setArtist, topArtists, removedArtists, setRemov
   
   // FILTER LINE UP 
   if (filterByHeadliners) lineUp = lineUp.filter(artist => artist.isHeadliner);
-  if (filterByTop) {
-    lineUp = lineUp.filter(artist => topArtists.includes(cleanStr(artist.name)))
-  }
+  if (filterByTop) lineUp = lineUp.filter(artist => topArtists.includes(cleanStr(artist.name)));
   if (filterByGenre != '') lineUp = lineUp.filter(artist => artist.genre.includes(genreObj[filterByGenre]));
   
   return (
     <>
-      <Filter lineUp={lineUp} setArtist={setArtist} filterByHeadliners={filterByHeadliners} setFilterByHeadliners={setFilterByHeadliners} filterByTop={filterByTop} setFilterByTop={setFilterByTop} filterByGenre={ filterByGenre } setFilterByGenre={setFilterByGenre} removedArtists={removedArtists} />
-    <div className="lineup">
+      <Filter lineUp={lineUp} setArtist={setArtist} filterByHeadliners={filterByHeadliners} setFilterByHeadliners={setFilterByHeadliners} filterByTop={filterByTop} setFilterByTop={setFilterByTop} filterByGenre={filterByGenre} setFilterByGenre={setFilterByGenre} removedArtists={removedArtists} setNewArtist={setNewArtist} />
+      <div className="lineup">
       {lineUp.length === 0 ? <></> :
         <div>
           {lineUp.map((artist, index) =>
