@@ -4,12 +4,16 @@ import searchIcon from '../assets/search.svg'
 
 function Search({ getFestival, setFestival }) {
 
+ // initialise use state for search value 
   const [searchValue, setSearchValue] = useState('');
 
+
+  // update search value based on input 
   const searchHandler = (e) => {
     setSearchValue(e.target.value);
   }
 
+  // search api based on user input and set new festival
   const searchSubmit = (e) => {
     e.preventDefault();
     apiService.getFestival(searchValue, setFestival)

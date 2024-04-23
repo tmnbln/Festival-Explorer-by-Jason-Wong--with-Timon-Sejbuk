@@ -3,17 +3,18 @@ import copyIcon from '../assets/copy-svgrepo-com.svg'
 import closeIcon from '../assets/close.svg'
 import { Bars } from 'react-loader-spinner';
 
-
-
 function SharePlaylist({playlistLink, setDisplayModal}) {
 
+  // initialise use state to track whether link copied 
   const [copied, setCopied] = useState(false);
   
+  // copy link to clipboard 
   const copyLink = () => {
     navigator.clipboard.writeText(playlistLink);
     setCopied(true);
   }
 
+  // close modal button 
   const closeModal = () => {
     setDisplayModal(false);
   }

@@ -1,14 +1,12 @@
 import '../App.css'
-import { useState, useEffect } from 'react';
 import helpers from '../helpers/helpers';
 import { motion, AnimatePresence, easeInOut } from 'framer-motion';
 
-function Artist({artist}) {
+function Artist({ artist }) {
 
   return (
     <div className="artist">
-      {!artist ? <></> :
-        <div className="artist-container">
+      {artist && <div className="artist-container">
           <AnimatePresence>
             <motion.div
               initial={{ x: -500, opacity: 0 }}
@@ -19,7 +17,7 @@ function Artist({artist}) {
         </motion.div>
           </AnimatePresence>
           <h2>{artist.name}</h2>
-          <p>{helpers.formatNumber(artist.followers.total)} FOLLOWERS</p>
+          <p>{helpers.formatNumber(artist.followers.total)} followers</p>
         </div>
       }   
     </div>

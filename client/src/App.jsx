@@ -14,7 +14,6 @@ import Tracks from './components/Tracks';
 import RelatedArtists from './components/RelatedArtists';
 import SharePlaylist from './components/SharePlaylist';
 
-const playlistURIs = [];
 
 function App() {
   const [spotifyToken, setSpotifyToken] = useState('');
@@ -29,7 +28,6 @@ function App() {
   const [displayModal, setDisplayModal] = useState(false);
   const [playlistLink, setPlaylistLink] = useState('');
 
-
   // get and set spotify access token 
   useEffect(() => {
     const accessToken = helpers.getTokenFromUrl().access_token;
@@ -41,32 +39,29 @@ function App() {
     }
   })
 
-  // useEffect(() => {
-  //   if (!loggedIn) return;
-  // }, [loggedIn])
 
   useEffect(() => {
-
     // reset dashboard if festival removed 
     if (!festival.performer) {
       resetDashboard();
-
-      // set line-up and display first artist if festival changes 
+    // set line-up and display first artist if festival changes 
     } else {
       setLineUp(festival.performer);
       setNewArtist(festival.performer[0].name);
+      apiService.getTopArtists(setTopArtists);
     }
   }, [festival])
   
 
+  // reset all states 
   const resetDashboard = () => {
     setLineUp([]);
     setArtist('');
     setTracks([]);
     setRelatedArtists([]);
     setRemovedArtists([]);
-    playlistURIs.slice(0, playlistURIs.length);
   }
+  
   
   const downloadPlaylist = async () => {
     setDisplayModal(true);
@@ -82,27 +77,43 @@ function App() {
     helpers.setNewArtist(artistName, setArtist, setTracks, setRelatedArtists);
   } 
 
+  const lineUpProps = {
+    artist,
+    lineUp,
+    topArtists,
+    setNewArtist,
+    removedArtists,
+    setRemovedArtists,
+    setTracks,
+    setRelatedArtists
+  }
+
   return (
     <div className="App">
       {!loggedIn && <Login/>}
-      {!festival && loggedIn && <Search setFestival={setFestival} />}
+      {loggedIn && !festival && <Search setFestival={setFestival} />}
       {loggedIn && festival && (
         <>
           <div className="main-page">
             {displayModal && <SharePlaylist playlistLink={playlistLink} setDisplayModal={setDisplayModal} />}
             <Header setFestival={setFestival} festival={festival} />
             <div className='dashboard'> 
+              
               <div className='dashboard-left'>
-              <div className="buttons">
-                <button className="playlist-button"  onClick={downloadPlaylist}>DOWNLOAD</button>
-              </div>
-                <LineUp artist={artist} lineUp={lineUp} setArtist={setArtist} topArtists={topArtists} removedArtists={removedArtists} setRemovedArtists={setRemovedArtists} setTracks={setTracks} setRelatedArtists={setRelatedArtists} setNewArtist={setNewArtist} />
-              </div>
-              <Artist artist={artist} />
-                <div className='dashboard-right'>
-                  <Tracks tracks={tracks} />
-                  <RelatedArtists relatedArtists={relatedArtists} />
+                <div className="buttons">
+                  <button className="playlist-button"  onClick={downloadPlaylist}>DOWNLOAD</button>
                 </div>
+                <LineUp props={{...lineUpProps}} />
+              </div>
+
+              <Artist artist={artist} />
+
+              <div className='dashboard-right'>
+                <Tracks tracks={tracks} />
+                <RelatedArtists relatedArtists={relatedArtists} />
+              </div>
+              
+
             </div>
           </div>
         </>

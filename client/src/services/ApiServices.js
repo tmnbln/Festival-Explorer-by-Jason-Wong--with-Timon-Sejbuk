@@ -38,7 +38,7 @@ apiService.getRelatedArtists = (artistId, cb) => {
   }
 
 // get user top 100 tracks 
-apiService.getTopArtists = async (arr, cb) => {
+apiService.getTopArtists = async (cb) => {
 
   // const numberOfArtists = 150;
   // const limit = 50;
@@ -70,7 +70,7 @@ apiService.getTopArtists = async (arr, cb) => {
     .then((tempTopArtists) => {
     spotifyApi.getMyTopArtists({ 'limit': '50', 'offset': '100' }).then((res) => {
       res.items.forEach(artist => tempTopArtists.push(artist.name));
-      cb([...arr, ...tempTopArtists])
+      cb([...tempTopArtists])
     })
     })
   }) 

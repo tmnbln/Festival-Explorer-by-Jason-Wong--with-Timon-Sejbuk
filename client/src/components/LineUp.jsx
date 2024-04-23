@@ -1,54 +1,81 @@
 import '../App.css'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Filter from './Filter';
 import { genreObj } from '../assets/genres';
-import apiService from '../services/ApiServices';
 import helpers from '../helpers/helpers';
+const cleanStr = helpers.cleanStr;
 
-function LineUp({artist, lineUp, setArtist, topArtists, removedArtists, setRemovedArtists, setTracks, setRelatedArtists, setLoading, setNewArtist}) {
-  
+function LineUp({ props }) {
+
+  // destructure props 
+  let {artist, lineUp, topArtists, setNewArtist, removedArtists, setRemovedArtists, setTracks, setRelatedArtists} = props
+
+  // initialise use states 
+  const [filterByGenre, setFilterByGenre] = useState('');
   const [filterByHeadliners, setFilterByHeadliners] = useState(false);
   const [filterByTop, setFilterByTop] = useState(false);
-  const [filterByGenre, setFilterByGenre] = useState('');
 
-  const cleanStr = helpers.cleanStr;
 
-  if (topArtists) topArtists = topArtists.map(artist => cleanStr(artist));
+  // clean name data to enable accurate comparison between data sources  
+  let cleanName = undefined
+  if (artist) cleanName = cleanStr(artist.name);
+  if (topArtists.length) topArtists = topArtists.map(artist => cleanStr(artist));
 
-  let name = undefined
-  if (artist) name = cleanStr(artist.name);
 
+  // set new artist by clicking artist name 
   const selectArtist = async (e) => {
-    const artistName = e.target.id;
+    const artistName = e.target.innerHTML;
     setNewArtist(artistName);
   }
 
+
+  // remove artist from line-up 
   const removeArtist = (e) => {
-    setRemovedArtists([...removedArtists, Number(e.target.id)]);
+    const artistIndex = e.target.id;
+    setRemovedArtists([...removedArtists, Number(artistIndex)]);
   }
+
+
+  // add artist back into line-up (for those previously removed) 
   const addArtist = (e) => {
-    setRemovedArtists(removedArtists.filter(x => x!= Number(e.target.id)));
+    const artistIndex = e.target.id;
+    setRemovedArtists(removedArtists.filter(x => x!= Number(artistIndex)));
   }
   
-  // FILTER LINE UP 
+
+  // filter line-up displayed based on filters selected 
   if (filterByHeadliners) lineUp = lineUp.filter(artist => artist.isHeadliner);
   if (filterByTop) lineUp = lineUp.filter(artist => topArtists.includes(cleanStr(artist.name)));
   if (filterByGenre != '') lineUp = lineUp.filter(artist => artist.genre.includes(genreObj[filterByGenre]));
   
+
+  // define props - filter component  
+  const filterProps = {
+    lineUp, 
+    setNewArtist,
+    filterByHeadliners,
+    setFilterByHeadliners,
+    filterByTop,
+    setFilterByTop,
+    filterByGenre,
+    setFilterByGenre,
+    removedArtists
+  }
+
   return (
     <>
-      <Filter lineUp={lineUp} setArtist={setArtist} filterByHeadliners={filterByHeadliners} setFilterByHeadliners={setFilterByHeadliners} filterByTop={filterByTop} setFilterByTop={setFilterByTop} filterByGenre={filterByGenre} setFilterByGenre={setFilterByGenre} removedArtists={removedArtists} setNewArtist={setNewArtist} />
+      <Filter props={{ ...filterProps }}/>
       <div className="lineup">
-      {lineUp.length === 0 ? <></> :
+      {lineUp.length && 
         <div>
           {lineUp.map((artist, index) =>
             <>
               <div key={artist.id} className="artist-item">
                 <span className={removedArtists.includes(index) ? "artist-deleted" : null}>
-                <p className={cleanStr(artist.name) == name ? "artist-selected" : "artist-name"}  onClick={selectArtist} id={artist.name} key={artist.performerId}>{artist.name}</p>
+                  <p className={cleanStr(artist.name) == cleanName ? "artist-selected" : "artist-name"}  onClick={selectArtist} key={artist.performerId}>{artist.name}</p>
                 </span>
-                {cleanStr(artist.name) == name && !removedArtists.includes(index)  ? <p className="add-remove" id={index} onClick={removeArtist}> remove </p> : <></>}
-                {cleanStr(artist.name) == name && removedArtists.includes(index)  ? <p className="add-remove" id={index} onClick={addArtist}> add </p> : <></>}
+                {cleanStr(artist.name) == cleanName && !removedArtists.includes(index)  ? <p className="add-remove" id={index} onClick={removeArtist}> remove </p> : <></>}
+                {cleanStr(artist.name) == cleanName && removedArtists.includes(index)  ? <p className="add-remove" id={index} onClick={addArtist}> add </p> : <></>}
               </div>
             </>
           )}

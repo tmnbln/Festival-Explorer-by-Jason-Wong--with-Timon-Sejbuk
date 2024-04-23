@@ -6,6 +6,7 @@ function Login() {
     <div className="Login">
 
       <div className="login-container">
+        
         <div className="festify-title-container">
           <h1 className="festify-title">festify</h1>
         </div>
@@ -19,8 +20,6 @@ function Login() {
         </div>
 
       </div>
-
-
     </div>
   )
 }
