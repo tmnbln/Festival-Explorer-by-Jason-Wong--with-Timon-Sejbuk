@@ -58,6 +58,7 @@
 
 @keyframes appear {
   0% {opacity: 0%;}
+  20% {opactiy: 0%;}
   100% {opacity: 100%;}
   }
 
@@ -191,7 +192,7 @@ textarea:focus, input:focus{
 
 .main-page {
   /* border: 1px green solid; */
-  animation: appear 3s;
+  animation: appear 5s;
   animation-iteration-count: 1;
 }
 
@@ -368,6 +369,8 @@ button:hover {
   /* border: 1px  blue solid; */
   padding: 20px;
   width: 40%;
+  animation: appear 3s;
+  
 }
 
 .artist img {
