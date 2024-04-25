@@ -26,33 +26,33 @@ genresSorted.forEach(genre => {
 
 // used to seed db with data from jambase api 
 
-// events.forEach(event => {
+events.forEach(event => {
 
-//   const newEvent = {
-//     name: event.name,
-//     festivalId: event.identifier,
-//     image: event.image,
-//     startDate: event.startDate,
-//     endDate: event.endDate,
-//     performer: [],
-//   };
+  const newEvent = {
+    name: event.name,
+    festivalId: event.identifier,
+    image: event.image,
+    startDate: event.startDate,
+    endDate: event.endDate,
+    performer: [],
+  };
 
-//   event.performer.forEach(performer => {
-//     const newPerformer = {
-//       performerType: performer['@type'],
-//       name: performer['name'],
-//       performerId: performer['identifier'],
-//       image: performer['image'],
-//       bandOrMusician: performer['x-bandOrMusician'],
-//       genre: performer['genre'],
-//       performanceDate: performer['x-performanceDate'],
-//       performanceRank: performer['x-performanceRank'],
-//       isHeadliner: performer['x-isHeadliner'],
-//     }
-//     newEvent.performer.push(newPerformer);
-//   })
+  event.performer.forEach(performer => {
+    const newPerformer = {
+      performerType: performer['@type'],
+      name: performer['name'],
+      performerId: performer['identifier'],
+      image: performer['image'],
+      bandOrMusician: performer['x-bandOrMusician'],
+      genre: performer['genre'],
+      performanceDate: performer['x-performanceDate'],
+      performanceRank: performer['x-performanceRank'],
+      isHeadliner: performer['x-isHeadliner'],
+    }
+    newEvent.performer.push(newPerformer);
+  })
 
-//   console.log(newEvent);
-//   model.addFestival(newEvent);
-// })
+  console.log(newEvent);
+  model.addFestival(newEvent);
+})
 
