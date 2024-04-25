@@ -93,8 +93,7 @@ function App() {
       {!loggedIn && <Login/>}
       {loggedIn && !festival && <Search setFestival={setFestival} />}
       {loggedIn && festival && (
-        <>
-          <div className="main-page">
+        <div className="main-page">
             {displayModal && <SharePlaylist playlistLink={playlistLink} setDisplayModal={setDisplayModal} />}
             <Header setFestival={setFestival} festival={festival} />
             <div className='dashboard'> 
@@ -109,14 +108,12 @@ function App() {
               <Artist artist={artist} />
 
               <div className='dashboard-right'>
-                <Tracks tracks={tracks} />
+                <Tracks accessToken={spotifyToken} tracks={tracks} />
                 <RelatedArtists relatedArtists={relatedArtists} />
               </div>
-              
 
             </div>
           </div>
-        </>
       )}
     </div>
   )

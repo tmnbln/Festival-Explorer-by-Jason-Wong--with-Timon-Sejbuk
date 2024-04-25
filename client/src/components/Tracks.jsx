@@ -1,42 +1,56 @@
-import '../App.css'
-import { useState } from 'react';
+import '../App.css';
+import { useState, useEffect } from 'react';
 
 function Tracks({ tracks }) {
-  
-  // initialise use states to track what is playing and set audio 
   const [nowPlaying, setNowPlaying] = useState('');  
-  const [audio, setAudio] = useState(new Audio());
-  if (audio) audio.play();
+  const [audioSrc, setAudioSrc] = useState('');
 
-  // limit number of tracks displayed;
-  tracks = tracks.slice(0, 5);
+  // limit to 5 tracks
+  const limitedTracks = tracks.slice(0, 5);
 
-  // toggle playback based on user selecting track
-  const playTrack = async (e) => {
-    if (audio) audio.pause();
-    if (nowPlaying == e.target.innerHTML) {
-      setAudio(new Audio());
+  // play and stop
+  const playTrack = (track) => {
+    if (nowPlaying === track.name) {
+      setAudioSrc(''); // stop
       setNowPlaying('');
     } else {
-      setAudio(new Audio(e.target.id));
-      setNowPlaying(e.target.innerHTML);
-      setTimeout(() => {
-        setAudio(new Audio());
-        setNowPlaying('');
-      }, 30000);
+      setAudioSrc(track.preview_url); // url to play
+      setNowPlaying(track.name); // now playing
     }
-  }
+  };
+
+  useEffect(() => {
+    // reset audio
+    return () => {
+      setAudioSrc('');
+      setNowPlaying('');
+    };
+  }, []);
 
   return (
     <div className="tracks">
       <h3>Top Tracks</h3>
-      {tracks.length && 
-        <div >
-          {tracks.map((track) => <p className={track.name == nowPlaying ? "track-selected" : "track-name"} onClick={playTrack} id={track.preview_url} key={track.id}>{track.name}</p>)}
+      {limitedTracks.length > 0 && (
+        <div>
+          {limitedTracks.map((track) => (
+            <p
+              className={track.name === nowPlaying ? "track-selected" : "track-name"}
+              onClick={() => playTrack(track)}
+              key={track.id}
+            >
+              {track.name}
+            </p>
+          ))}
         </div>
-      }   
+      )}
+      {audioSrc && (
+        <audio controls autoPlay>
+          <source src={audioSrc} type="audio/mpeg" />
+          🦆 Your browser does not support the audio element.
+        </audio>
+      )}
     </div>
-  )
+  );
 }
 
-export default Tracks
+export default Tracks;

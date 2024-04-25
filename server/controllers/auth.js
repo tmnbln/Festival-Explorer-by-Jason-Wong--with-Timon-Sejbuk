@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+ const crypto = require('crypto');
 const stateKey = 'spotify_auth_state';
 const querystring = require('querystring');
 const request = require('request');
