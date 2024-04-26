@@ -1,7 +1,7 @@
 import '../App.css';
 import { useState, useEffect } from 'react';
 
-function Tracks({ tracks, spotifyToken }) {
+function Tracks({ tracks, accessToken }) {
   const [player, setPlayer] = useState(undefined);
   const [nowPlaying, setNowPlaying] = useState('');
   const [isPaused, setPaused] = useState(false);
@@ -10,17 +10,18 @@ function Tracks({ tracks, spotifyToken }) {
   const [deviceId, setDeviceId] = useState('');
 
   useEffect(() => {
-    if (spotifyToken) {
+    console.log(accessToken);
+    if (accessToken) {
       const script = document.createElement('script');
       script.src = 'https://sdk.scdn.co/spotify-player.js';
       script.async = true;
       document.body.appendChild(script);
 
-      script.onload = () => {
+
         window.onSpotifyWebPlaybackSDKReady = () => {
           const player = new window.Spotify.Player({
             name: 'Web Playback SDK Quick Start Player',
-            getOAuthToken: cb => cb(spotifyToken),
+            getOAuthToken: cb => cb(accessToken),
             volume: 0.5
           });
 
@@ -44,15 +45,14 @@ function Tracks({ tracks, spotifyToken }) {
 
           player.connect();
         };
-      };
     }
-  }, [spotifyToken]);
+  }, [accessToken]);
 
-  useEffect(() => {
-    return () => {
-      player && player.disconnect();
-    };
-  }, [player, spotifyToken]);
+  // useEffect(() => {
+  //   return () => {
+  //     player && player.disconnect();
+  //   };
+  // }, [player, accessToken]);
 
   const playTrack = (trackUri) => {
     if (!deviceId) {
@@ -66,7 +66,7 @@ function Tracks({ tracks, spotifyToken }) {
       body: JSON.stringify({ uris: [trackUri] }),
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${spotifyToken}`
+        Authorization: `Bearer ${accessToken}`
       },
     }).then(response => {
       if (!response.ok) {
