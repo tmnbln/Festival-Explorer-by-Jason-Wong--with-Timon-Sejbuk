@@ -22,7 +22,7 @@ async function login (req, res) {
   res.cookie(stateKey, state);
 
   // application requests authorization
-  const scope = 'user-read-private user-read-email user-read-playback-state user-top-read playlist-modify-private playlist-modify-public';
+  const scope = 'user-read-private user-read-email user-read-playback-state user-top-read playlist-modify-private playlist-modify-public streaming';
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
