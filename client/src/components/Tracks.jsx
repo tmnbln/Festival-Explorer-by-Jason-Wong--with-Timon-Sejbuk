@@ -22,7 +22,7 @@ function Tracks({ tracks, accessToken }) {
           const player = new window.Spotify.Player({
             name: 'Web Playback SDK Quick Start Player',
             getOAuthToken: cb => cb(accessToken),
-            volume: 0.5
+            volume: 1
           });
 
           setPlayer(player);
@@ -48,11 +48,11 @@ function Tracks({ tracks, accessToken }) {
     }
   }, [accessToken]);
 
-  // useEffect(() => {
-  //   return () => {
-  //     player && player.disconnect();
-  //   };
-  // }, [player, accessToken]);
+  useEffect(() => {
+    return () => {
+      player && player.disconnect();
+    };
+  }, [player, accessToken]);
 
   const playTrack = (trackUri) => {
     if (!deviceId) {
@@ -86,7 +86,8 @@ function Tracks({ tracks, accessToken }) {
         <div key={track.id}>
           <p
             className={track.url === nowPlaying ? 'track-selected' : 'track-name'}
-            onClick={() => playTrack(track.trackUri)}
+            onClick={() => playTrack(`spotify:track:` + track.id)}
+            // onClick={() => playTrack("spotify:track:6nmre39J3T34WvmYSbfZdq")}
           >
             {track.name}
           </p>
@@ -94,7 +95,7 @@ function Tracks({ tracks, accessToken }) {
       ))}
       {isActive && currentTrack && (
         <div className="player-widget">
-          <div>Now playing: {currentTrack.name} by {currentTrack.artists.map(artist => artist.name).join(', ')}</div>
+          <div>Now playing: {currentTrack.name})}</div>
           <div>Status: {isPaused ? 'Paused' : 'Playing'}</div>
         </div>
       )}
