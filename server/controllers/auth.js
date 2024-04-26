@@ -5,9 +5,9 @@ const request = require('request');
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
-const client_id = process.env.CLIENT_ID
-const client_secret = process.env.CLIENT_SECRET
-const redirect_uri = process.env.REDIRECT_URI
+const client_id = process.env.CLIENT_ID;
+const client_secret = process.env.CLIENT_SECRET;
+const redirect_uri = process.env.REDIRECT_URI;
 
 const generateRandomString = (length) => {
   return crypto

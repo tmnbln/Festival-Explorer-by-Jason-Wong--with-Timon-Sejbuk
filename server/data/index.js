@@ -6,22 +6,22 @@ const events = [...dataPage1.events, ...dataPage2.events];
 
 // used to calculate top genres
 
-let genres = {};
-events.forEach(event => {
-  event.performer.forEach(artist => {
-    artist.genre.forEach(genre => {
-      if (genres[genre]) genres[genre]++;
-      else genres[genre] = 1;
-    })
-  })
-})
+// let genres = {};
+// events.forEach(event => {
+//   event.performer.forEach(artist => {
+//     artist.genre.forEach(genre => {
+//       if (genres[genre]) genres[genre]++;
+//       else genres[genre] = 1;
+//     })
+//   })
+// })
 
-genresSorted = Object.keys(genres).sort((a, b) => genres[b] - genres[a]);
+// genresSorted = Object.keys(genres).sort((a, b) => genres[b] - genres[a]);
 
-genresSorted.forEach(genre => {
-  let count = genres[genre];
-  console.log(genre, count);
-})
+// genresSorted.forEach(genre => {
+//   let count = genres[genre];
+//   console.log(genre, count);
+// })
 
 
 // used to seed db with data from jambase api 
