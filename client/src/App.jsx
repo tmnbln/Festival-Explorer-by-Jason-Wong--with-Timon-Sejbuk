@@ -1,6 +1,5 @@
 import './App.css'
 import { useState, useEffect } from 'react';
-import SpotifyWebApi from 'spotify-web-api-js';
 import apiService from './services/ApiServices';
 import helpers from './helpers/helpers';
 
@@ -36,9 +35,9 @@ function App() {
       setSpotifyToken(accessToken);
       apiService.setAccessToken(accessToken);
       setLoggedIn(true);
+      console.log(accessToken);
     }
-  })
-
+  }, [])
 
   useEffect(() => {
     // reset dashboard if festival removed 
