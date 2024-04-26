@@ -18,33 +18,36 @@ function Tracks({ tracks, accessToken }) {
       document.body.appendChild(script);
 
 
-        window.onSpotifyWebPlaybackSDKReady = () => {
-          const player = new window.Spotify.Player({
-            name: 'Web Playback SDK Quick Start Player',
-            getOAuthToken: cb => cb(accessToken),
-            volume: 1
-          });
+      window.onSpotifyWebPlaybackSDKReady = () => {
+        const player = new window.Spotify.Player({
+          name: 'Web Playback SDK Quick Start Player',
+          getOAuthToken: cb => cb(accessToken),
+          volume: 1
+        });
 
-          setPlayer(player);
+        setPlayer(player);
 
-          player.addListener('ready', ({ device_id }) => {
-            console.log('Ready with Device ID', device_id);
-            setDeviceId(device_id);
-          });
+        player.addListener('ready', ({ device_id }) => {
+          console.log('Ready with Device ID', device_id);
+          setDeviceId(device_id);
+        });
 
-          player.addListener('not_ready', ({ device_id }) => {
-            console.log('Device has gone offline', device_id);
-          });
+        player.addListener('not_ready', ({ device_id }) => {
+          console.log('Device has gone offline', device_id);
+        });
 
-          player.addListener('player_state_changed', state => {
-            if (!state) return;
-            setTrack(state.track_window.current_track);
-            setPaused(state.paused);
-            setActive(true);
-          });
+        player.addListener('player_state_changed', state => {
+          if (!state) return;
+          setTrack(state.track_window.current_track);
+          setPaused(state.paused);
+          setActive(true);
+          const songSlider = document.getElementById('song-slider');
+          songSlider.value = Math.round(state.position);
+          songSlider.max = Math.round(state.duration);
+        });
 
-          player.connect();
-        };
+        player.connect();
+      };
     }
   }, [accessToken]);
 
@@ -59,6 +62,21 @@ function Tracks({ tracks, accessToken }) {
       console.error('No device ID found. Make sure the Spotify player is ready.');
       return;
     }
+
+    const songSlider = document.getElementById('song-slider');
+    songSlider.addEventListener('input', () => {
+      const seekPosition = songSlider.value;
+      player.seek(seekPosition).then(() => {
+        console.log('Changed position!');
+      });
+    });
+
+    songSlider.addEventListener('input', () => {
+      const seekPosition = Math.round(songSlider.value);
+      player.seek(seekPosition).then(() => {
+        console.log('Changed position!');
+      });
+    });
 
     console.log(`Attempting to play track: ${trackUri}`);
     fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
@@ -87,7 +105,6 @@ function Tracks({ tracks, accessToken }) {
           <p
             className={track.url === nowPlaying ? 'track-selected' : 'track-name'}
             onClick={() => playTrack(`spotify:track:` + track.id)}
-            // onClick={() => playTrack("spotify:track:6nmre39J3T34WvmYSbfZdq")}
           >
             {track.name}
           </p>
@@ -99,15 +116,10 @@ function Tracks({ tracks, accessToken }) {
           <div>Status: {isPaused ? 'Paused' : 'Playing'}</div>
         </div>
       )}
-      <button className="btn-spotify" onClick={() => player.previousTrack()}>
-        &lt;&lt;
-      </button>
       <button className="btn-spotify" onClick={() => player.togglePlay()}>
         {isPaused ? "PLAY" : "PAUSE"}
       </button>
-      <button className="btn-spotify" onClick={() => player.nextTrack()}>
-        &gt;&gt;
-      </button>
+      <input type="range" id="song-slider" min="0" max="100" value="0" step="1"></input>
     </div>
   );
 }
