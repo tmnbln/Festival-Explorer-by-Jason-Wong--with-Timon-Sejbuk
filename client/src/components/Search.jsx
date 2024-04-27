@@ -71,7 +71,8 @@ const Search = () => {
       )}
     </div>
   );
-  
+}
+
 //   return (
 //     <div className="Login">
 //       <div className="login-container">
@@ -91,6 +92,5 @@ const Search = () => {
 //       </div>
 //     </div>
 //   )
-// }
 
 export default Search;
