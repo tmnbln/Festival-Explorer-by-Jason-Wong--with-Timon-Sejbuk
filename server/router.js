@@ -18,13 +18,16 @@ router.get('/festivals', controller.getAllFestivals);
 
 // seed data
 router.get('/seed', async (req, res) => {
-    try {
-      require('./data/index');
-      res.status(200).json({ message: '✨ Data seeded successfully' });
-    } catch (error) {
-      console.error('Error seeding data:', error);
-      res.status(500).json({ error: '🦆 Error seeding data' });
-    }
-  });
+  try {
+    require('./data/index');
+    res.status(200).json({ message: '✨ Data seeded successfully' });
+  } catch (error) {
+    console.error('Error seeding data:', error);
+    res.status(500).json({ error: '🦆 Error seeding data' });
+  }
+});
+
+router.get('/festival-suggestions', controller.getFestivalSuggestions);
+router.post('/festival-suggestions', controller.getFestivalSuggestions);
 
 module.exports = router;

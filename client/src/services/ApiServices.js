@@ -112,5 +112,28 @@ apiService.getFestival = async (festivalName, cb) => {
   cb(body[0]);
 }
 
+// get festival suggestions using autocomplete
+apiService.getFestivalSuggestions = async (query) => {
+  const url = "http://localhost:8888/festival-suggestions";
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query })
+  };
+
+  try {
+    const response = await fetch(url, requestOptions);
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error);
+    }
+    const suggestions = await response.json();
+    return suggestions;
+  } catch (error) {
+    console.error('Error fetching festival suggestions:', error);
+    throw error;
+  }
+};
+
 
 export default apiService;

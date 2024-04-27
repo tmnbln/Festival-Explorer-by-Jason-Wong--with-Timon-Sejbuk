@@ -21,7 +21,23 @@ const getAllFestivals = async (req, res) => {
   }
 };
 
+const getFestivalSuggestions = async (req, res) => {
+  try {
+    const { query } = req.body;
+    if (!query) {
+      return res.status(400).json({ error: 'Query parameter is missing' });
+    }
+    const suggestions = await model.getFestivalSuggestions(query);
+    res.status(200).json(suggestions);
+  } catch (error) {
+    console.error('Error fetching festival suggestions:', error);
+    res.status(500).json({ error: 'Internal server error', details: error.message });
+  }
+};
+
+
 module.exports = {
   getOneFestival,
   getAllFestivals,
+  getFestivalSuggestions
 };

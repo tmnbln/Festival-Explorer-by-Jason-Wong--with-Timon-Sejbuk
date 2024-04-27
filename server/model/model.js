@@ -34,9 +34,15 @@ async function addFestival(festival) {
   return newFestival;
 }
 
+async function getFestivalSuggestions(query) {
+return await Festival.find({ 'name': { "$regex": query, "$options": "i" } })
+.select('name').limit(5);
+}
+
 
 module.exports = {
   getOneFestival,
   getAllFestivals,
   addFestival,
+  getFestivalSuggestions
 }
