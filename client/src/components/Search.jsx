@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
-import apiService from '../services/ApiServices';
+import { useState } from "react";
+import apiService from "../services/ApiServices";
+import searchIcon from '../assets/search.svg';
 
-const Search = () => {
+const Search = ({ getFestival, setFestival }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [festivalSuggestions, setFestivalSuggestions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -37,17 +38,18 @@ const Search = () => {
 
   const debouncedFetchSuggestions = debounce(fetchSuggestions, 300);
 
-  useEffect(() => {
-    debouncedFetchSuggestions(searchQuery);
-  }, [searchQuery]);
-
   const handleInputChange = (event) => {
     setSearchQuery(event.target.value);
+    debouncedFetchSuggestions(event.target.value);
   };
 
   const handleSuggestionClick = (suggestion) => {
-    setSearchQuery(suggestion.name);
-    setFestivalSuggestions([]);
+    setFestival(suggestion);
+  };
+
+  const searchSubmit = (e) => {
+    e.preventDefault();
+    apiService.getFestival(searchQuery, setFestival);
   };
 
   return (
@@ -59,14 +61,17 @@ const Search = () => {
         <h2>Step 2</h2>
         <h3>Enter a festival name</h3>
         <div id="search-container">
-          <input
-            type="text"
-            placeholder="Search festivals..."
-            value={searchQuery}
-            onChange={handleInputChange}
-            disabled={loading}
-            className="search-input"
-          />
+          <img src={searchIcon} alt="Search Icon" />
+          <form onSubmit={searchSubmit}>
+            <input
+              type="text"
+              placeholder="Search festivals..."
+              value={searchQuery}
+              onChange={handleInputChange}
+              disabled={loading}
+              className="search-input"
+            />
+          </form>
           {error && <div className="error-message" style={{ color: 'red' }}>{error}</div>}
         </div>
         {festivalSuggestions.length > 0 && (
