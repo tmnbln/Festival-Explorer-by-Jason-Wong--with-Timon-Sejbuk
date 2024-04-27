@@ -51,46 +51,36 @@ const Search = () => {
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Search festivals..."
-        value={searchQuery}
-        onChange={handleInputChange}
-        disabled={loading}
-      />
-      {error && <div style={{ color: 'red' }}>{error}</div>}
-      {festivalSuggestions.length > 0 && (
-        <ul>
-          {festivalSuggestions.map((suggestion) => (
-            <li key={suggestion._id} onClick={() => handleSuggestionClick(suggestion)}>
-              {suggestion.name}
-            </li>
-          ))}
-        </ul>
-      )}
+    <div className="login-container">
+      <div className="festify-title-container">
+        <h1 className="festify-title">festify</h1>
+      </div>
+      <div className="login-text-container">
+        <h2>Step 2</h2>
+        <h3>Enter a festival name</h3>
+        <div id="search-container">
+          <input
+            type="text"
+            placeholder="Search festivals..."
+            value={searchQuery}
+            onChange={handleInputChange}
+            disabled={loading}
+            className="search-input"
+          />
+          {error && <div className="error-message" style={{ color: 'red' }}>{error}</div>}
+        </div>
+        {festivalSuggestions.length > 0 && (
+          <ul className="suggestions-list">
+            {festivalSuggestions.map((suggestion) => (
+              <li key={suggestion._id} onClick={() => handleSuggestionClick(suggestion)}>
+                {suggestion.name}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
-}
-
-//   return (
-//     <div className="Login">
-//       <div className="login-container">
-//         <div className="festify-title-container">
-//          <h1 className="festify-title">festify</h1>
-//         </div>
-//         <div className="login-text-container">
-//           <h2>step 2</h2>
-//           <h3>enter a festival name</h3>
-//           <div id="search-container">
-//             <img src={searchIcon}></img>
-//             <form onSubmit={searchSubmit}>
-//               <input type="text" value={searchValue} onChange={searchHandler} placeholder="SEARCH"></input>
-//             </form>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   )
+};
 
 export default Search;
