@@ -44,9 +44,9 @@ const Search = ({ getFestival, setFestival }) => {
   };
 
   const handleSuggestionClick = (suggestion) => {
-    setFestival(suggestion);
+    apiService.getFestival(suggestion.name, setFestival);
   };
-
+  
   const searchSubmit = (e) => {
     e.preventDefault();
     apiService.getFestival(searchQuery, setFestival);
@@ -89,3 +89,6 @@ const Search = ({ getFestival, setFestival }) => {
 };
 
 export default Search;
+
+
+
